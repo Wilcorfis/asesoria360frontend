@@ -1,0 +1,94 @@
+
+<h2 class="mb-5">Nuevo usuario</h2>
+
+<!--
+	
+	
+	
+	
+
+
+	
+	
+	
+
+-->
+<div class="row row-cols-3 justify-content-center">
+    <form [formGroup]="form" (ngSubmit)="create()">
+        <div class="mb-3">
+            <label for="primer_nombre">primer_nombre</label>
+            <input id="primer_nombre" type="text" placeholder="nombre"
+                class="form-control" formControlName="primer_nombre">
+        </div>
+        <div class="mb-3">
+            <label for="segundo_nmbre">segundo_nmbre</label>
+            <input id="segundo_nmbre" type="text" placeholder="email"
+                class="form-control" formControlName="segundo_nmbre">
+        </div>
+        <div class="mb-3">
+            <label for="primer_apellido">primer_apellido</label>
+            <input id="primer_apellido" type="text" placeholder="nombre"
+                class="form-control" formControlName="primer_apellido">
+        </div>
+        <div class="mb-3">
+            <label for="segundo_apellido">segundo_apellido</label>
+            <input id="segundo_apellido" type="text" placeholder="email"
+                class="form-control" formControlName="segundo_apellido">
+        </div>
+        <div class="mb-3">
+            <label for="rol">rol</label>
+            <input id="rol" type="text" placeholder="nombre"
+                class="form-control" formControlName="rol">
+        </div>
+        <div class="mb-3">
+            <label for="codigotutor">codigotutor</label>
+            <input id="codigotutor" type="text" placeholder="nombre"
+                class="form-control" formControlName="codigotutor">
+        </div>
+        <div class="mb-3">
+            <label for="correo">correo</label>
+            <input id="correo" type="text" placeholder="email"
+                class="form-control" formControlName="correo">
+        </div>
+        <div class="mb-3">
+            <label for="clave">clave</label>
+            <input id="clave" type="text" placeholder="nombre"
+                class="form-control" formControlName="clave">
+        </div>
+        <div class="mb-3">
+            <label for="sexo">sexo</label>
+            <input id="sexo" type="text" placeholder="email"
+                class="form-control" formControlName="sexo">
+        </div>
+        <div class="mb-3">
+            <label for="telefono">telefono</label>
+            <input id="telefono" type="number" placeholder="nombre"
+                class="form-control" formControlName="telefono">
+        </div>
+        <div class="mb-3">
+            <label for="fecha_nacimiento">fecha_nacimiento</label>
+            <input id="fecha_nacimiento" type="date" placeholder="email"
+                class="form-control" formControlName="fecha_nacimiento">
+        </div>
+        <div class="mb-3">
+            <label for="descripcion">descripcion</label>
+            <input id="descripcion" type="text" placeholder="nombre"
+                class="form-control" formControlName="descripcion">
+        </div>
+
+        
+
+
+        <div class="text-end">
+            <button type="button" class="btn btn-light " routerLink="/">
+                Cancelar
+
+            </button>
+            <button class="btn btn-light ms-2">
+                crear usuario
+            </button>
+
+        </div>
+
+    </form>
+</div>
