@@ -1,20 +1,16 @@
 
-<h2 class="mb-5">Nuevo usuario</h2>
+<h2 class="mb-5">
+    @if(usuario){
+        Editar
+    }@else{
+        Nuevo contacto
 
-<!--
-	
-	
-	
-	
+    }
+</h2>
 
-
-	
-	
-	
-
--->
 <div class="row row-cols-3 justify-content-center">
-    <form [formGroup]="form" (ngSubmit)="create()">
+    @if(form){
+    <form [formGroup]="form" (ngSubmit)="save()">
         <div class="mb-3">
             <label for="primer_nombre">primer_nombre</label>
             <input id="primer_nombre" type="text" placeholder="nombre"
@@ -85,10 +81,16 @@
 
             </button>
             <button class="btn btn-light ms-2">
-                crear usuario
+                @if(usuario){
+                    Actualizar contacto
+                }@else{
+                    Crear contacto
+            
+                }
             </button>
 
         </div>
 
     </form>
+}
 </div>

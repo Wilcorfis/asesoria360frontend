@@ -15,10 +15,20 @@ export default class UsuarioListComponent implements OnInit {
   private usuarioService=inject(UsuarioService);
   usuarios:Usuario[]=[];
   ngOnInit(): void {
+    this.loadAll();
+
+  }
+  loadAll(){
     this.usuarioService.list()
     .subscribe(usuarios=>{
       this.usuarios=usuarios;
     });
   }
+  deleteUsuario(usuario: Usuario){
+    this.usuarioService.delete(usuario.id_usuario)
+    .subscribe(()=>{
+      this.loadAll();
 
+    })
+  }
 }

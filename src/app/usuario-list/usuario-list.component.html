@@ -24,13 +24,13 @@
                     <td>{{usuario.id_usuario}}</td>
                     <td>{{usuario.primer_nombre}}</td>
                     <td>{{usuario.segundo_nmbre}}</td>
-                    <td>{{usuario.fecha_nacimiento|date:'dd/MM/yyyy hh:mm a'}}</td>
-                    <td>
+                    <td>{{usuario.fecha_nacimiento|date:'dd/MM/yyyy'}}</td>
+                    <td class="text-end">
                         <div class="btn-group">
-                            <button class="btn btn-primary">
+                            <button class="btn btn-primary" [routerLink]="[usuario.id_usuario,'edit']">
                                 Editar
                             </button>
-                            <button class="btn btn-danger">
+                            <button class="btn btn-danger" (click)="deleteUsuario(usuario)">
                                 Eliminar
                             </button>
 
