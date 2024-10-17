@@ -21,7 +21,7 @@
             @for(usuario of usuarios; track usuario.id_usuario){
 
                 <tr>
-                    <td>{{usuario.id_usuario}}</td>
+                    <td style="display: none;">{{usuario.id_usuario}}</td>
                     <td>{{usuario.primer_nombre}}</td>
                     <td>{{usuario.segundo_nmbre}}</td>
                     <td>{{usuario.fecha_nacimiento|date:'dd/MM/yyyy'}}</td>
