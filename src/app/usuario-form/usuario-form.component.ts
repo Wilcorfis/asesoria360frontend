@@ -11,7 +11,7 @@ import { Usuario } from '../model/usuario.interface';
   templateUrl: './usuario-form.component.html',
   styleUrl: './usuario-form.component.css'
 })
-export default class ContactFormComponent implements OnInit {
+export default class UsuarioFormComponent implements OnInit {
   private fb=inject(FormBuilder);
   private route=inject(ActivatedRoute);
   private usuarioService=inject(UsuarioService)
