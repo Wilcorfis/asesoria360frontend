@@ -7,7 +7,6 @@ export interface Usuario {
 	rol : string,/*estudiante o tutor*/
 	codigotutor : string,
 	correo : string,
-	clave : string,
 	sexo : string,
 	telefono : string,
 	fecha_nacimiento : string,

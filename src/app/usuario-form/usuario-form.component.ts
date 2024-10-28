@@ -12,6 +12,7 @@ import { Usuario } from '../model/usuario.interface';
   styleUrl: './usuario-form.component.css'
 })
 export default class UsuarioFormComponent implements OnInit {
+  correo: string = '';
   private fb=inject(FormBuilder);
   private route=inject(ActivatedRoute);
   private usuarioService=inject(UsuarioService)
@@ -20,6 +21,9 @@ export default class UsuarioFormComponent implements OnInit {
   form?:FormGroup
   usuario?:Usuario
   ngOnInit():void{
+    this.route.queryParams.subscribe(params => {
+      this.correo = params['correo'] || '';
+    });
     const id=this.route.snapshot.paramMap.get('id');
     if(id){
       this.usuarioService.get(parseInt(id))
@@ -33,7 +37,6 @@ export default class UsuarioFormComponent implements OnInit {
           rol :[usuario.rol,[Validators.required]],
           codigotutor :[usuario.codigotutor,[Validators.required]],
           correo :[usuario.correo,[Validators.required]],
-          clave :[usuario.clave,[Validators.required]],
           sexo :[usuario.sexo,[Validators.required]],
           telefono :[usuario.telefono,[Validators.required]],
           fecha_nacimiento :[usuario.fecha_nacimiento,[Validators.required]],
@@ -51,7 +54,6 @@ export default class UsuarioFormComponent implements OnInit {
         rol :['',[Validators.required]],
         codigotutor :['',[Validators.required]],
         correo :['',[Validators.required]],
-        clave :['',[Validators.required]],
         sexo :['',[Validators.required]],
         telefono :['',[Validators.required]],
         fecha_nacimiento :['',[Validators.required]],
@@ -66,13 +68,13 @@ export default class UsuarioFormComponent implements OnInit {
     const usuarioForm=this.form!.value;
     if (this.usuario) {
       this.usuarioService.update(this.usuario.id_usuario,usuarioForm).subscribe(()=>{
-        this.router.navigate(['/'])
+        this.router.navigate(['/listarusuario'])
   
       })
       
     } else {
       this.usuarioService.create(usuarioForm).subscribe(()=>{
-        this.router.navigate(['/'])
+        this.router.navigate(['/listarusuario'])
   
       })
       

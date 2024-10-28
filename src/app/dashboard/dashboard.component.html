@@ -1,0 +1,7 @@
+<!-- src/app/components/dashboard/dashboard.component.html -->
+<div class="container mt-5">
+    <h2>Welcome to the Dashboard</h2>
+    <p *ngIf="!isLoggedIn">Please log in to see your dashboard.</p>
+    <p *ngIf="isLoggedIn">Here is your data...</p>
+  </div>
+  

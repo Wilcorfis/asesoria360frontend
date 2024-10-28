@@ -1,10 +1,18 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from './login-form/login-form.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
     {path:'listarusuario',
         loadComponent:()=>import('./usuario-list/usuario-list.component')
 
     },
+   
+    { path: 'login', component: LoginComponent },
+    { path: 'dashboard', component: DashboardComponent },
+
+
+
     {path:'nuevousuario',
         loadComponent:()=>import('./usuario-form/usuario-form.component')
 

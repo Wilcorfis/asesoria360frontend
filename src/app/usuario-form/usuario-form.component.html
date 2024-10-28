@@ -11,6 +11,12 @@
 <div class="row row-cols-3 justify-content-center">
     @if(form){
     <form [formGroup]="form" (ngSubmit)="save()">
+
+        <div class="mb-3">
+            <label for="correo">correo</label>
+            <input id="correo" type="text" placeholder="email"
+                class="form-control" formControlName="correo" [(ngModel)]="correo" readonly >
+        </div>
         <div class="mb-3">
             <label for="primer_nombre">primer_nombre</label>
             <input id="primer_nombre" type="text" placeholder="nombre"
@@ -42,16 +48,6 @@
                 class="form-control" formControlName="codigotutor">
         </div>
         <div class="mb-3">
-            <label for="correo">correo</label>
-            <input id="correo" type="text" placeholder="email"
-                class="form-control" formControlName="correo">
-        </div>
-        <div class="mb-3">
-            <label for="clave">clave</label>
-            <input id="clave" type="text" placeholder="nombre"
-                class="form-control" formControlName="clave">
-        </div>
-        <div class="mb-3">
             <label for="sexo">sexo</label>
             <input id="sexo" type="text" placeholder="email"
                 class="form-control" formControlName="sexo">
@@ -76,7 +72,7 @@
 
 
         <div class="text-end">
-            <button type="button" class="btn btn-light " routerLink="listarusuario">
+            <button type="button" class="btn btn-light " routerLink="/listarusuario">
                 Cancelar
 
             </button>

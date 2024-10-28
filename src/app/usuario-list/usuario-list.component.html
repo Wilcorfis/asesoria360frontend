@@ -1,6 +1,6 @@
 <h2 class="mb-5">mis usuarios</h2>
 <div class="text-end">
-    <button class="btn btn-primary" routerLink="nuevousuario"> 
+    <button class="btn btn-primary" routerLink="/nuevousuario"> 
         Nuevo Usuario
 
     </button>
@@ -24,11 +24,11 @@
                     <td style="display: none;">{{usuario.id_usuario}}</td>
                     <td>{{usuario.primer_nombre}}</td>
                     <td>{{usuario.segundo_nmbre}}</td>
-                    <td>{{usuario.clave}}</td>
+                    <td>{{usuario.correo}}</td>
                     <td>{{usuario.fecha_nacimiento|date:'dd/MM/yyyy'}}</td>
                     <td class="text-end">
                         <div class="btn-group">
-                            <button class="btn btn-primary" [routerLink]="[usuario.id_usuario,'editarusuario']">
+                            <button class="btn btn-primary" [routerLink]="['/',usuario.id_usuario,'editarusuario']">
                                 Editar
                             </button>
                             <button class="btn btn-danger" (click)="deleteUsuario(usuario)">
