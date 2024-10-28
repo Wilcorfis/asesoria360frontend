@@ -12,7 +12,7 @@ import { Usuario } from '../model/usuario.interface';
   styleUrl: './usuario-form.component.css'
 })
 export default class UsuarioFormComponent implements OnInit {
-  correo: string = '';
+  email: string = '';
   private fb=inject(FormBuilder);
   private route=inject(ActivatedRoute);
   private usuarioService=inject(UsuarioService)
@@ -22,13 +22,15 @@ export default class UsuarioFormComponent implements OnInit {
   usuario?:Usuario
   ngOnInit():void{
     this.route.queryParams.subscribe(params => {
-      this.correo = params['correo'] || '';
+      this.email = params['email'] || '';
     });
     const id=this.route.snapshot.paramMap.get('id');
     if(id){
       this.usuarioService.get(parseInt(id))
       .subscribe(usuario=>{
         this.usuario=usuario
+        var fechaformato = new Date(usuario.fecha_nacimiento)
+        var fecha=new Date(`${fechaformato.getFullYear()}-${fechaformato.getMonth()+1}-${fechaformato.getDate()}`).toISOString().split('T')[0];
         this.form=this.fb.group({
           primer_nombre :[usuario.primer_nombre,[Validators.required]],
           segundo_nmbre :[usuario.segundo_nmbre,[Validators.required]],
@@ -39,7 +41,7 @@ export default class UsuarioFormComponent implements OnInit {
           correo :[usuario.correo,[Validators.required]],
           sexo :[usuario.sexo,[Validators.required]],
           telefono :[usuario.telefono,[Validators.required]],
-          fecha_nacimiento :[usuario.fecha_nacimiento,[Validators.required]],
+          fecha_nacimiento :[fecha,[Validators.required]],
           descripcion :[usuario.descripcion,[Validators.required]]
         });
 
@@ -74,7 +76,7 @@ export default class UsuarioFormComponent implements OnInit {
       
     } else {
       this.usuarioService.create(usuarioForm).subscribe(()=>{
-        this.router.navigate(['/listarusuario'])
+        this.router.navigate(['/login'])
   
       })
       

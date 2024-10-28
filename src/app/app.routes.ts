@@ -8,7 +8,7 @@ export const routes: Routes = [
 
     },
    
-    { path: 'login', component: LoginComponent },
+    { path: '', component: LoginComponent },
     { path: 'dashboard', component: DashboardComponent },
 
 

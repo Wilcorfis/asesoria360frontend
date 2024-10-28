@@ -67,8 +67,8 @@ export class LoginComponent {
       esValido => {
         if (esValido) {
           sessionStorage.setItem('correo', correo);
-          sessionStorage.setItem("isLoggedIn", 'true');
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard'],{queryParams:{esValido}});
+
         } else {
           alert('Correo no registrado o no autorizado');
           this.cerrarSesion();
@@ -80,17 +80,17 @@ export class LoginComponent {
     );
   }
 
-  validarCorreoEnBackendregistro(correo: string): void {
+  validarCorreoEnBackendregistro(email: string): void {
     const headers = { 'Content-Type': 'text/plain' }; // Ajuste de encabezado para enviar como texto plano
     this.http.post<boolean>(
       'https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/validarCorreo',
-      correo,
+      email,
       { headers }
     )
     .subscribe(
       esValido => {
         if (!esValido) {
-          this.router.navigate(['/nuevousuario'],{queryParams:{correo}})
+          this.router.navigate(['/nuevousuario'],{queryParams:{email}})
         } else {
           alert('Correo Ya se encuentra registrado');
           this.cerrarSesion();
