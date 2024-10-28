@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable,inject } from '@angular/core';
 import { Usuario } from '../model/usuario.interface';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,8 @@ import { Usuario } from '../model/usuario.interface';
 export class UsuarioService {
   private http=inject(HttpClient);
 
-  list(correo :string){
-    return this.http.get<Usuario[]>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/usuarioporcorreo/${correo}`)
+  list(correo :string | null){
+    return this.http.get<Usuario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/usuarioporcorreo/${correo}`)
   }
   get(id: number){
     return this.http.get<Usuario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/${id}`);

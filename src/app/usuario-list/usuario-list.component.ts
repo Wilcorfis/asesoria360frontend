@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Usuario } from '../model/usuario.interface';
 import { AuthService } from '../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-usuario-list',
@@ -14,7 +15,21 @@ import { AuthService } from '../services/auth.service';
 })
 export default class UsuarioListComponent implements OnInit {
   private usuarioService=inject(UsuarioService);
-  usuarios:Usuario[]=[];
+  usuario:Usuario={
+    id_usuario: 0,
+    primer_nombre: '',
+    segundo_nmbre: '',
+    primer_apellido: '',
+    segundo_apellido: '',
+    rol: '',
+    codigotutor: '',
+    correo: '',
+    sexo: '',
+    telefono: '',
+    fecha_nacimiento: '',
+    descripcion: ''
+  }
+  private emailSubscription: Subscription = new Subscription;
 
   isLoggedIn: boolean = false;
   email: string | null = null;
@@ -22,26 +37,36 @@ export default class UsuarioListComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.loadAll();
-
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });
 
     // Suscribirse a los cambios en el correo electrónico
-    this.authService.email$.subscribe(email => {
-      this.email = email;
-    });
+
+    
+      this.emailSubscription = this.authService.getEmail().subscribe(email => {
+        this.email = email; // Actualiza el correo cuando cambie
+      });
+    
+
+    this.loadAll();
+
+
     
 
 
   }
+  ngOnDestroy() {
+    this.emailSubscription.unsubscribe(); // Limpia la suscripción al destruir el componente
+  }
+ 
   loadAll(){
-    var correo=JSON.parse(this.email as string);
+    
 
-    this.usuarioService.list(correo)
+    this.usuarioService.list(this.email)
     .subscribe(usuarios=>{
-      this.usuarios=usuarios;
+     
+      this.usuario=usuarios;
     });
   }
   deleteUsuario(usuario: Usuario){

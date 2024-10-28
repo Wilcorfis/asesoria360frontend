@@ -25,7 +25,7 @@
         </tr>
     </thead>    
         <tbody>
-            @for(usuario of usuarios; track usuario.id_usuario){
+            @if(usuario){
 
                 <tr>
                     <td style="display: none;">{{usuario.id_usuario}}</td>

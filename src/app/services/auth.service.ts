@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   private isLoggedInSubject = new BehaviorSubject<boolean>(false); // Estado de inicio de sesión
   private emailSubject = new BehaviorSubject<string | null>(null); // Correo electrónico
+  
 
   isLoggedIn$ = this.isLoggedInSubject.asObservable(); // Observable para el estado de inicio de sesión
   email$ = this.emailSubject.asObservable(); // Observable para el correo electrónico
@@ -22,6 +24,10 @@ export class AuthService {
     this.isLoggedInSubject.next(false);
     this.emailSubject.next(null);
   }
+  getEmail(): Observable<string | null> {
+    return this.emailSubject.asObservable(); // Devuelve el Observable
+  }
+
 }
 
 
