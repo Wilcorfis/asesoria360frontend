@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -13,27 +14,44 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
-  isLoggedIn: boolean =false;
+  isLoggedIn: boolean = false;
+  email: string | null = null;
+  
  
   private route=inject(ActivatedRoute);
   private afAuth = inject(AngularFireAuth);
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
+  
+  
 
   ngOnInit():void{
-    this.route.queryParams.subscribe(params => {
-      this.isLoggedIn = params['esValido'] || '';
+    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+    });
+
+    // Suscribirse a los cambios en el correo electrónico
+    this.authService.email$.subscribe(email => {
+      this.email = email;
     });
 
 
+
 }
-cerrarSesion(): void {
-  this.afAuth.signOut();
-  sessionStorage.removeItem('correo');
-  sessionStorage.removeItem("isLoggedIn");
+login() {
+  const email = 'usuario@ejemplo.com'; // Reemplaza esto con una entrada del usuario
+  this.authService.login(email);
+}
+
+// Método para cerrar sesión
+logout() {
+  this.authService.logout();
   this.router.navigate(['']);
+  
 }
+
 }

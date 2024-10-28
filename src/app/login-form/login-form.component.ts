@@ -1,21 +1,36 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import firebase from 'firebase/app';
 import { GoogleAuthProvider } from '@angular/fire/auth';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'login-form',
   templateUrl: './login-form.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private afAuth = inject(AngularFireAuth);
+  isLoggedIn: boolean = false;
+  email: string | null = null;
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
+  ngOnInit() {
+    // Suscribirse a los cambios en el estado de inicio de sesión
+    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+    });
+
+    // Suscribirse a los cambios en el correo electrónico
+    this.authService.email$.subscribe(email => {
+      this.email = email;
+    });
+  }
   iniciarSesionConGoogle() {
     // Usando el proveedor de Google directamente desde AngularFireAuth
     const provider = new GoogleAuthProvider();
@@ -66,8 +81,10 @@ export class LoginComponent {
     .subscribe(
       esValido => {
         if (esValido) {
-          sessionStorage.setItem('correo', correo);
-          this.router.navigate(['/dashboard'],{queryParams:{esValido}});
+          //llamar login
+          this.authService.login(correo);
+          this.router.navigate(['/dashboard']);
+
 
         } else {
           alert('Correo no registrado o no autorizado');
@@ -104,15 +121,17 @@ export class LoginComponent {
   isAuthenticated(): boolean {
     return sessionStorage.getItem("correo")!== null;
   }
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['']);
+  }
   
   
   
 
   cerrarSesion(): void {
     this.afAuth.signOut();
-    sessionStorage.removeItem('correo');
-    sessionStorage.removeItem("isLoggedIn");
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 }
 

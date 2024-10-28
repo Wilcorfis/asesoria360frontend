@@ -1,5 +1,6 @@
 // src/app/components/dashboard/dashboard.component.ts
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 //import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -7,12 +8,17 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-  isLoggedIn = false;
+  constructor(
+    private router: Router
+  ) {}
+  ngOnInit() {
+   
+  }
+
+
+  
 
   //constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    //this.isLoggedIn = this.authService.isAuthenticated();
-  }
 }
 

@@ -1,21 +1,27 @@
-// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private isLoggedInKey = 'isLoggedIn';
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false); // Estado de inicio de sesión
+  private emailSubject = new BehaviorSubject<string | null>(null); // Correo electrónico
 
-  login(): void {
-    sessionStorage.setItem(this.isLoggedInKey, 'true');
+  isLoggedIn$ = this.isLoggedInSubject.asObservable(); // Observable para el estado de inicio de sesión
+  email$ = this.emailSubject.asObservable(); // Observable para el correo electrónico
+
+  // Método para iniciar sesión
+  login(email: string) {
+    this.isLoggedInSubject.next(true);
+    this.emailSubject.next(email);
   }
 
-  logout(): void {
-    sessionStorage.removeItem(this.isLoggedInKey);
-  }
-
-  isAuthenticated(): boolean {
-    return sessionStorage.getItem(this.isLoggedInKey) === 'true';
+  // Método para cerrar sesión
+  logout() {
+    this.isLoggedInSubject.next(false);
+    this.emailSubject.next(null);
   }
 }
+
+

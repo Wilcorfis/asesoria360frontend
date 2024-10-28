@@ -8,8 +8,8 @@ import { Usuario } from '../model/usuario.interface';
 export class UsuarioService {
   private http=inject(HttpClient);
 
-  list(){
-    return this.http.get<Usuario[]>('https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios')
+  list(correo :string){
+    return this.http.get<Usuario[]>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/usuarioporcorreo/${correo}`)
   }
   get(id: number){
     return this.http.get<Usuario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/${id}`);
