@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import firebase from 'firebase/app';
 import { GoogleAuthProvider } from '@angular/fire/auth';
 import { AuthService } from '../services/auth.service';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'login-form',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private usuarioService: UsuarioService
   ) {}
   ngOnInit() {
     // Suscribirse a los cambios en el estado de inicio de sesión
@@ -38,10 +40,10 @@ export class LoginComponent implements OnInit {
     this.afAuth.signInWithPopup(provider)
     .then(result => {
       const correo = result.user?.email;
-      if (correo && correo.endsWith('@elpoli.edu.co')) {
+      if (correo ) {//&& correo.endsWith('@elpoli.edu.co')
         this.validarCorreoEnBackend(correo);
       } else {
-        alert('Solo se permite iniciar sesión con un correo @elpoli.edu.co de Gmail');
+        //alert('Solo se permite iniciar sesión con un correo @elpoli.edu.co de Gmail');
         this.cerrarSesion();
       }
     })
@@ -56,11 +58,11 @@ export class LoginComponent implements OnInit {
     this.afAuth.signInWithPopup(provider)
     .then(result => {
       const correo = result.user?.email;
-      if (correo && correo.endsWith('@elpoli.edu.co')) {
+      if (correo) {//&& correo.endsWith('@elpoli.edu.co'
         this.validarCorreoEnBackendregistro(correo);
-      } else {
-        alert('Solo se permite registrarse con un correo @elpoli.edu.co ');
-        this.cerrarSesion();
+      //} else {
+        //alert('Solo se permite registrarse con un correo @elpoli.edu.co ');
+        //this.cerrarSesion();
       }
     })
     .catch(error => {
@@ -83,6 +85,10 @@ export class LoginComponent implements OnInit {
         if (esValido) {
           //llamar login
           this.authService.login(correo);
+          this.usuarioService.list(correo)
+          .subscribe(usuarios=>{
+            this.usuarioService.setUsuario(usuarios)
+          });
           this.router.navigate(['/dashboard']);
 
 

@@ -4,6 +4,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { UsuarioService } from '../services/usuario.service';
+import { Usuario } from '../model/usuario.interface';
 
 
 @Component({
@@ -16,6 +18,8 @@ import { AuthService } from '../services/auth.service';
 export class NavbarComponent implements OnInit {
   isLoggedIn: boolean = false;
   email: string | null = null;
+  usuario: Usuario | null = null;
+  
   
  
   private route=inject(ActivatedRoute);
@@ -24,12 +28,16 @@ export class NavbarComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private usuarioService :UsuarioService
   ) {}
   
   
 
   ngOnInit():void{
+    this.usuarioService.getUsuario().subscribe((usuario) => {
+      this.usuario = usuario; // Almacenar el usuario en la variable
+    });
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });
@@ -42,10 +50,7 @@ export class NavbarComponent implements OnInit {
 
 
 }
-login() {
-  const email = 'usuario@ejemplo.com'; // Reemplaza esto con una entrada del usuario
-  this.authService.login(email);
-}
+
 
 // Método para cerrar sesión
 logout() {

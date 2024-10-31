@@ -4,6 +4,5 @@ export interface Notificacion {
     mensaje :string ,
     fecha_envio : string,
     estado : string,/*leida , no leida */
-    fk_id_usuario : number,
-    fk_id_asesoria : number
+    fk_id_usuario : number
 }

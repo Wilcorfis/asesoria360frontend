@@ -71,13 +71,13 @@ export default class UsuarioFormComponent implements OnInit {
     const usuarioForm=this.form!.value;
     if (this.usuario) {
       this.usuarioService.update(this.usuario.id_usuario,usuarioForm).subscribe(()=>{
-        this.router.navigate(['/listarusuario'])
+        this.router.navigate([''])
   
       })
       
     } else {
       this.usuarioService.create(usuarioForm).subscribe(()=>{
-        this.router.navigate(['/login'])
+        this.router.navigate([''])
   
       })
       

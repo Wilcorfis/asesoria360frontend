@@ -4,7 +4,24 @@
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto">
       
+      
         @if(isLoggedIn){
+          @if(usuario?.rol=='Tutor'){
+            <li class="nav-item"><button class="nav-link disabled" routerLink="/dashboard">Home</button></li>
+        
+            <li class="nav-item"><button class="nav-link" routerLink="/listarretroalimentacion">retroalimentacion</button></li>
+            
+            <li class="nav-item"><button class="nav-link" routerLink="/listarnotificacion">notificacion</button></li>
+            
+            <li class="nav-item"><button class="nav-link" routerLink="/nuevoasesoria"> crear asesoria</button></li>
+            
+            <li class="nav-item"><button class="nav-link" routerLink="/listarasesoria">listar asesoria</button></li>
+            
+            <li class="nav-item"><button class="nav-link" routerLink="/listarusuario">Perfil</button></li>
+
+
+          }
+          @if(usuario?.rol=='Estudiante'){
         <li class="nav-item"><button class="nav-link disabled" routerLink="/dashboard">Home</button></li>
         
         <li class="nav-item"><button class="nav-link" routerLink="/listarretroalimentacion">retroalimentacion</button></li>
@@ -14,8 +31,8 @@
         <li class="nav-item"><button class="nav-link" routerLink="/listarasesoria">asesoria</button></li>
         
         <li class="nav-item"><button class="nav-link" routerLink="/listarusuario">Perfil</button></li>
+        }
         
-
         }
       
     </ul>

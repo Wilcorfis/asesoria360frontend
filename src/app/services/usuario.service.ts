@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable,inject } from '@angular/core';
 import { Usuario } from '../model/usuario.interface';
 import { AuthService } from './auth.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,27 @@ export class UsuarioService {
   delete(id:number){
     return this.http.delete<void>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/${id}`)
   }
+
 ///http://localhost:8080
 //https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios
 //https
+private usuarioSubject = new BehaviorSubject<Usuario | null>(null); 
+
+usuario$ = this.usuarioSubject.asObservable(); // Observable para el usuario
+
+// Método para obtener el usuario
+getUsuario(): Observable<Usuario | null> {
+  return this.usuarioSubject.asObservable(); // Devuelve el Observable
+}
+
+// Método para actualizar el usuario
+setUsuario(usuario: Usuario): void {
+  this.usuarioSubject.next(usuario); // Actualiza el BehaviorSubject con el nuevo usuario
+}
+
+// Método para limpiar el usuario
+clearUsuario(): void {
+  this.usuarioSubject.next(null); // Limpia el usuario
+}
 
 }

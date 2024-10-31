@@ -1,8 +1,78 @@
 
-<h2 class="mb-5">
 
+<h2 class="mb-5">
+    @if(asesoria){
+        Editar
+    }@else{
+        Nuevo asesoria
+
+    }
 </h2>
 
 <div class="row row-cols-3 justify-content-center">
-  
+    @if(form){
+    <form [formGroup]="form" (ngSubmit)="save()">
+
+        <div class="mb-3">
+            <label for="horario">Selecciona Horario:</label>
+            <select formControlName="horario" id="horario">
+              <option *ngFor="let horario of horarios" [value]="horario.id_horario">
+                {{ horario.hora_inicio}} hasta {{horario.hora_fin}}
+              </option>
+            </select>
+          
+        </div>
+        <div class="mb-3">
+            <label for="asignatura">Selecciona Asignatura:</label>
+            <select formControlName="asignatura" id="asignatura">
+              <option *ngFor="let asignatura of asignaturas" [value]="asignatura.id_asignatura">
+                {{ asignatura.nombre }}
+              </option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="fecha_asesoria">fecha asesoria</label>
+            <input id="fecha_asesoria" type="date" 
+                class="form-control" formControlName="fecha_asesoria">
+        </div>
+
+        <div class="mb-3">
+            <label for="ubicacion">ubicacion</label>
+            <input id="ubicacion" type="text" placeholder="salon o enlace"
+                class="form-control" formControlName="ubicacion">
+        </div>
+
+        <div class="mb-3">
+            <label for="visibilidad">visibilidad</label>
+            <select id="visibilidad"  
+                class="form-control" formControlName="visibilidad">
+                <option value="publico">publico</option>
+                <option value="privado">privado</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="capacidad">capacidad</label>
+            <input id="capacidad" type="number" placeholder="numero de estudiantes"
+                class="form-control" formControlName="capacidad">
+        </div>
+        
+        <div class="text-end">
+            <button type="button" class="btn btn-light " routerLink="/listarasesoria">
+                Cancelar
+
+            </button>
+            <button class="btn btn-light ms-2">
+                @if(asesoria){
+                    Actualizar asesoria
+                }@else{
+                    Crear asesoria
+            
+                }
+            </button>
+
+        </div>
+
+    </form>
+}
 </div>
