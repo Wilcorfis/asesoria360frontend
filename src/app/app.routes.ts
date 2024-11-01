@@ -49,6 +49,14 @@ export const routes: Routes = [
         loadComponent:()=>import('./asesoria-list/asesoria-list.component')
 
     },
+    {path:'listarasesoriatutor',
+        loadComponent:()=>import('./asesoria-tutor/asesoria-tutor.component')
+
+    },
+    {path:'listarasesoriaestudiante',
+        loadComponent:()=>import('./asesoria-estudiante/asesoria_estudiante.component')
+
+    },
     {path:'nuevoasesoria',
         loadComponent:()=>import('./asesoria-form/asesoria-form.component')
 
@@ -60,8 +68,8 @@ export const routes: Routes = [
     {path:'listarsuscripcionasesoria',
         loadComponent:()=>import('./suscripcionasesoria-list/suscripcionasesoria-list.component')
 
-    },
-    {path:'nuevosuscripcionasesoria',
+    },//nuevosuscripcionasesoria
+    {path:':id/suscripcionasesoria',
         loadComponent:()=>import('./suscripcionasesoria-form/suscripcionasesoria-form.component')
 
     }, 

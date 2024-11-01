@@ -1,0 +1,23 @@
+.calendar-day {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+    cursor: pointer;
+  }
+  .calendar-day.today {
+    background-color: #007bff;
+    color: white;
+  }
+  .calendar-day.highlighted {
+    background-color: #6f42c1;
+    color: white;
+  }
+  .day-number {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  .day-name {
+    font-size: 0.8em;
+  }

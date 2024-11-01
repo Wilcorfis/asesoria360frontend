@@ -1,0 +1,49 @@
+<h2 class="mb-5">Tdoas las asesorias de estado publico</h2>
+<div class="text-end">
+    <!--<button class="btn btn-primary" routerLink="/nuevousuario"> 
+        Nuevo Usuario
+
+    </button>-->
+
+</div>
+<div class="container">
+  <div class="row mb-3">
+    <div class="col text-center">
+      <button class="btn btn-outline-primary me-2" (click)="prevMonth()">Anterior</button>
+      <span class="fw-bold">{{ currentDate | date: 'MMMM yyyy' }}</span>
+      <button class="btn btn-outline-primary ms-2" (click)="nextMonth()">Siguiente</button>
+    </div>
+  </div>
+
+  <!-- Encabezado de días de la semana -->
+  <div class="row text-center bg-light border">
+    <div class="col border p-2">Dom</div>
+    <div class="col border p-2">Lun</div>
+    <div class="col border p-2">Mar</div>
+    <div class="col border p-2">Mié</div>
+    <div class="col border p-2">Jue</div>
+    <div class="col border p-2">Vie</div>
+    <div class="col border p-2">Sáb</div>
+  </div>
+
+  <!-- Celdas del calendario -->
+  <div *ngFor="let week of calendarWeeks" class="row text-center">
+    <div *ngFor="let day of week" class="col border p-2" 
+         [ngClass]="{ 'bg-primary text-white': day?.asesorias?.length > 0 }">
+      <div *ngIf="day">
+        <!-- Número del día -->
+        <span class="fw-bold">{{ day.day }}</span>
+
+        <!-- Mostrar asesorías en la celda del día -->
+        <div *ngFor="let asesoria of day.asesorias" class="mt-1 p-1 rounded bg-light text-dark">
+          <small class="d-block">{{ asesoria.asignatura.nombre }} - Tutor: {{ asesoria.tutor.correo }}</small>
+          <small> {{asesoria.horario.hora_inicio}} {{asesoria.horario.hora_fin}}</small>
+          <a href="{{asesoria.ubicacion}}">{{asesoria.ubicacion}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+    

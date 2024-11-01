@@ -11,6 +11,12 @@ export class AsesoriaService {
   list(){
     return this.http.get<Asesoria[]>('https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias')
   }
+  getbyidtutor(id: number){
+    return this.http.get<Asesoria[]>(`https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/tutor/${id}`)
+  }
+  getbyidestudiante(id: number){
+    return this.http.get<Asesoria[]>(`https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/estudiante/${id}`)
+  }
   get(id: number){
     return this.http.get<Asesoria>(`https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${id}`);
   }

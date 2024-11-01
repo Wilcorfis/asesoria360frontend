@@ -1,156 +1,68 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendario de Asesorías</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .calendar-day {
-            width: 100%;
-            padding: 10px;
-            cursor: pointer;
-        }
-        .calendar-day.today {
-            background-color: #007bff;
-            color: white;
-        }
-        .calendar-day.selected {
-            background-color: #28a745;
-            color: white;
-        }
-        .calendar-day.has-event {
-            background-color: #ffc107;
-            color: black;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-4">
-        <h2 class="text-center">Calendario de Asesorías</h2>
-        <div class="d-flex justify-content-center align-items-center mb-3">
-            <button id="prevMonth" class="btn btn-secondary me-2">Anterior</button>
-            <h3 id="currentMonth" class="mb-0"></h3>
-            <button id="nextMonth" class="btn btn-secondary ms-2">Siguiente</button>
-        </div>
-        <div class="row text-center bg-light border-top border-bottom">
-            <div class="col">Dom</div>
-            <div class="col">Lun</div>
-            <div class="col">Mar</div>
-            <div class="col">Mié</div>
-            <div class="col">Jue</div>
-            <div class="col">Vie</div>
-            <div class="col">Sáb</div>
-        </div>
-        <div id="calendarDays" class="row text-center"></div>
-    </div>
-
-    <!-- Modal para agregar eventos -->
-    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventModalLabel">Agregar Evento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="eventDate">
-                    <div class="mb-3">
-                        <label for="eventText" class="form-label">Descripción del Evento</label>
-                        <textarea class="form-control" id="eventText" rows="3" placeholder="Ejemplo: Asesoría de matemáticas a las 10:00 am"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="saveEvent">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const calendarDays = document.getElementById("calendarDays");
-        const currentMonthElement = document.getElementById("currentMonth");
-        let currentDate = new Date();
-        let events = {};
-
-        function loadCalendar() {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            const firstDayOfMonth = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            currentMonthElement.textContent = currentDate.toLocaleDateString("es-ES", { year: "numeric", month: "long" });
-            calendarDays.innerHTML = "";
-
-            for (let i = 0; i < firstDayOfMonth; i++) {
-                calendarDays.innerHTML += '<div class="col border p-2"></div>';
-            }
-
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayElement = document.createElement("div");
-                dayElement.classList.add("col", "border", "calendar-day");
-                dayElement.textContent = day;
-                
-                const dateKey = `${year}-${month + 1}-${day}`;
-                dayElement.onclick = () => openEventModal(dateKey);
-
-                if (events[dateKey]) {
-                    dayElement.classList.add("has-event");
-                }
-
-                const today = new Date();
-                if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
-                    dayElement.classList.add("today");
-                }
-
-                calendarDays.appendChild(dayElement);
-            }
-        }
-
-        function openEventModal(date) {
-            const eventText = events[date] || '';
-            document.getElementById("eventDate").value = date;
-            document.getElementById("eventText").value = eventText;
-            new bootstrap.Modal(document.getElementById("eventModal")).show();
-        }
-
-        document.getElementById("saveEvent").onclick = () => {
-            const date = document.getElementById("eventDate").value;
-            const eventText = document.getElementById("eventText").value.trim();
-            if (eventText) {
-                events[date] = eventText;
-            } else {
-                delete events[date];
-            }
-            loadCalendar();
-            bootstrap.Modal.getInstance(document.getElementById("eventModal")).hide();
-        };
-
-        document.getElementById("prevMonth").onclick = () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            loadCalendar();
-        };
-
-        document.getElementById("nextMonth").onclick = () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            loadCalendar();
-        };
-
-        loadCalendar();
-    </script>
-</body>
-</html>
-
-<h2 class="mb-5">mis asesorias</h2>
+<h2 class="mb-5">Tdoas las asesorias de estado publico</h2>
 <div class="text-end">
-    <button class="btn btn-primary" routerLink="nuevoasesoria"> 
-        Nueva asesoria
+    <!--<button class="btn btn-primary" routerLink="/nuevousuario"> 
+        Nuevo Usuario
 
-    </button>
-    
+    </button>-->
 
 </div>
+@if(isLoggedIn){
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>horario</th>
+            <th>tutor</th>
+            <th>asignatura</th>
+            <th>fecha creacion</th>
+            <th>fecha asesoria</th>
+            <th>ubicacion</th>
+            <th>estado</th>
+            <th>visibilidad</th>
+            <th>capacidad</th>
+     
+            <th></th>
+
+        </tr>
+    </thead>    
+        <tbody>
+            @for(asesoria of asesoria; track asesoria.id_asesoria){
+
+                <tr>
+                    <td style="display: none;">{{asesoria.id_asesoria}}</td>
+                    <td>{{asesoria.horario.hora_inicio}} {{asesoria.horario.hora_fin}}</td>
+                    <td>{{asesoria.tutor.primer_nombre}} {{asesoria.tutor.primer_apellido}}</td>
+                    <td>{{asesoria.asignatura.nombre}}</td>
+                    <td>{{asesoria.fecha_creacion|date:'dd/MM/yyyy'}}</td>
+                    <td>{{asesoria.fecha_asesoria|date:'dd/MM/yyyy'}}</td>
+                    <td>{{asesoria.ubicacion}}</td>
+                    <td>{{asesoria.estado}}</td>
+                    <td>{{asesoria.visibilidad}}</td>
+                    <td>{{asesoria.capacidad}}</td>
+                    
+   
+                    <td class="text-end">
+                        @if(asesoria.visibilidad=="publico" && usuario?.rol=="Estudiante"){
+                        <div class="btn-group">
+                            <button class="btn btn-primary" [routerLink]="['/',asesoria.id_asesoria,'suscripcionasesoria']">
+                                Inscribirme
+                            </button>
+                            <!--<button class="btn btn-danger" (click)="deleteUsuario(usuario)">
+                                Eliminar
+                            </button>-->
+
+                        </div>
+                    }
+                    </td>
+                
+                </tr>
+            }
+
+        </tbody>
+
+
+   
+
+</table>
+}
 
     
