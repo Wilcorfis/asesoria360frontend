@@ -8,6 +8,7 @@ import { Asesoria } from '../model/asesoria.interface';
 import { AuthService } from '../services/auth.service';
 
 
+
 @Component({
   selector: 'app-asesoria-estudiante',
   standalone: true,
@@ -25,14 +26,21 @@ export default class AsesoriaEstudianteComponent implements OnInit {
   currentDate: Date = new Date();
   events: { [key: string]: string } = {};
   highlightedDates: Set<string> = new Set();
+  cont: number | 0=0;
 
 
   asesoriasPorFecha: { [key: string]: any[] } = {}; // Almacena asesorías por fecha
-  
- 
 
+  isModalOpen: boolean = false;
+    
+  openEventModal(asesorias: any[]) {
+    
+    this.isModalOpen = true; // Mostrar modal
 
-
+  }
+  closeModal() {
+    this.isModalOpen = false; // Ocultar modal
+  }
 
   loadCalendar(): void {
     const year = this.currentDate.getFullYear();
@@ -73,6 +81,7 @@ export default class AsesoriaEstudianteComponent implements OnInit {
     const idUsuario: number = this.usuario?.id_usuario ?? 0;
     this.asesoriaService.getbyidestudiante(idUsuario).subscribe(asesorias => {
       console.log(asesorias)
+
       this.asesoria=asesorias;
       this.highlightDates(asesorias); // Llama al método para resaltar las fechas de asesorías
     });
@@ -94,20 +103,25 @@ export default class AsesoriaEstudianteComponent implements OnInit {
     });
     this.loadCalendar(); // Recargar el calendario para aplicar los cambios
   }
+    // Método para contar asesorías por dia
 
-  prevMonth(): void {
-    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-    this.loadCalendar();
+ 
+
+  prevMonth() {
+    const current = new Date(this.currentDate);
+    current.setMonth(current.getMonth() - 1);
+    this.currentDate = current;
+    this.loadCalendar(); // Llama a tu método para cargar el calendario
   }
 
-  nextMonth(): void {
-    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-    this.loadCalendar();
+  // Método para navegar al mes siguiente
+  nextMonth() {
+    const current = new Date(this.currentDate);
+    current.setMonth(current.getMonth() + 1);
+    this.currentDate = current;
+    this.loadCalendar(); // Llama a tu método para cargar el calendario
   }
 
-  openEventModal(date: string): void {
-    // Lógica para abrir el modal de eventos
-  }
 
   constructor(private authService: AuthService,
     private asesoriaService :AsesoriaService
@@ -127,6 +141,9 @@ export default class AsesoriaEstudianteComponent implements OnInit {
     this.loadCalendar();
     //this.loadAll();
     this.cargarAsesorias();
+  }
+  countAsesoriasInDay(dateKey: string): number {
+    return Array.isArray(this.asesoriasPorFecha[dateKey]) ? this.asesoriasPorFecha[dateKey].length : 0;
   }
 
  

@@ -81,7 +81,7 @@ export const routes: Routes = [
         loadComponent:()=>import('./retroalimentacion-list/retroalimentacion-list.component')
 
     },
-    {path:'nuevoretroalimentacion',
+    {path:':id/nuevoretroalimentacion',
         loadComponent:()=>import('./retroalimentacion-form/retroalimentacion-form.component')
 
     }, 

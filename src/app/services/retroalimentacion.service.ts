@@ -11,6 +11,10 @@ export class RetroalimentacionService {
   list(){
     return this.http.get<Retroalimentacion[]>('https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones')
   }
+
+  getporidusuario(id: number){
+    return this.http.get<Retroalimentacion[]>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/retroalimentaionporidusuario/${id}`);
+  }
   get(id: number){
     return this.http.get<Retroalimentacion>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/${id}`);
   }

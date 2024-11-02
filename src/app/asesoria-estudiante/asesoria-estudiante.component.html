@@ -1,6 +1,6 @@
 <h2 class="mb-5">Tdoas las asesorias de estado publico</h2>
 <div class="text-end">
-    <!--<button class="btn btn-primary" routerLink="/nuevousuario"> 
+  <!--<button class="btn btn-primary" routerLink="/nuevousuario"> 
         Nuevo Usuario
 
     </button>-->
@@ -9,9 +9,11 @@
 <div class="container">
   <div class="row mb-3">
     <div class="col text-center">
-      <button class="btn btn-outline-primary me-2" (click)="prevMonth()">Anterior</button>
+      <button class="btn btn-outline-primary me-2"
+        (click)="prevMonth()">Anterior</button>
       <span class="fw-bold">{{ currentDate | date: 'MMMM yyyy' }}</span>
-      <button class="btn btn-outline-primary ms-2" (click)="nextMonth()">Siguiente</button>
+      <button class="btn btn-outline-primary ms-2"
+        (click)="nextMonth()">Siguiente</button>
     </div>
   </div>
 
@@ -28,21 +30,75 @@
 
   <!-- Celdas del calendario -->
   <div *ngFor="let week of calendarWeeks" class="row text-center">
-    <div *ngFor="let day of week" class="col border p-2" 
-         [ngClass]="{ 'bg-primary text-white': day?.asesorias?.length > 0 }">
+    <div *ngFor="let day of week" class="col border p-2"
+      [ngClass]="{ 'bg-primary text-white': day?.asesorias?.length > 0 }">
       <div *ngIf="day">
         <!-- Número del día -->
         <span class="fw-bold">{{ day.day }}</span>
+        <!--<div *ngFor="let asesoria of day.asesorias">
+          
+        </div>-->
+              <!-- Mostrar la cantidad de asesorías en el día -->
 
-        <!-- Mostrar asesorías en la celda del día -->
-        <div *ngFor="let asesoria of day.asesorias" class="mt-1 p-1 rounded bg-light text-dark">
-          <small class="d-block">{{ asesoria.asignatura.nombre }} - Tutor: {{ asesoria.tutor.correo }}</small>
-          <small> {{asesoria.horario.hora_inicio}} {{asesoria.horario.hora_fin}}</small>
-          <a href="{{asesoria.ubicacion}}">{{asesoria.ubicacion}}</a>
+        <!-- Botón para ver más asesorías mas de 2 -->
+        <div *ngIf="day.asesorias.length > 0" class="text-center mt-1">
+          <small class="text-muted">Total Asesorías: {{ day.asesorias.length }}</small>
+      
+        
+    
+          <button class="btn btn-sm btn btn-secondary"
+            (click)="openEventModal(day.asesorias)">
+            Ver Todo
+          </button>
         </div>
+
       </div>
+
     </div>
   </div>
 </div>
+<!-- Modal para ver todas las asesorías del día -->
+<!-- Modal para ver todas las asesorías del día -->
+<div class="custom-modal" *ngIf="isModalOpen">
+  <div class="custom-modal-content">
+    <div class="custom-modal-header">
+      <h5>Asesorías del día</h5>
+      <button type="button" (click)="closeModal()"
+        class="close-button">X</button>
+    </div>
+    <div class="custom-modal-body">
+      <div *ngFor="let week of calendarWeeks">
+        <div *ngFor="let day of week"
+          [ngClass]="{ 'bg-primary text-white': day?.asesorias?.length > 0 }">
+          <div *ngIf="day">
 
-    
+            <div *ngFor="let asesoria of day.asesorias"
+              class="mb-3 p-2 border rounded" >
+              <p class="mb-1"><strong>Asignatura:</strong> {{
+                asesoria.asignatura.nombre }}</p>
+              <p class="mb-1"><strong>Tutor:</strong> {{ asesoria.tutor.correo
+                }}</p>
+                
+              <p class="mb-1"><strong>Horario:</strong> {{
+                asesoria.horario.hora_inicio }} - {{ asesoria.horario.hora_fin
+                }}</p>
+              <p class="mb-1 text-secondary"><strong>Ubicación:</strong> <a
+                  href="{{ asesoria.ubicacion }}">{{ asesoria.ubicacion
+                  }}</a></p>
+              <a
+                [routerLink]="['/', asesoria.id_asesoria, 'nuevoretroalimentacion']"
+                class="btn btn-sm mt-1 btn-secondary">
+                Calificar asesoria
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="custom-modal-footer">
+      <button type="button" class="btn btn-secondary"
+        (click)="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>

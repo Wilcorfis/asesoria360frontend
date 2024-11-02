@@ -95,14 +95,19 @@ export default class AsesoriaTutorComponent implements OnInit {
     this.loadCalendar(); // Recargar el calendario para aplicar los cambios
   }
 
-  prevMonth(): void {
-    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-    this.loadCalendar();
+  prevMonth() {
+    const current = new Date(this.currentDate);
+    current.setMonth(current.getMonth() - 1);
+    this.currentDate = current;
+    this.loadCalendar(); // Llama a tu método para cargar el calendario
   }
 
-  nextMonth(): void {
-    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-    this.loadCalendar();
+  // Método para navegar al mes siguiente
+  nextMonth() {
+    const current = new Date(this.currentDate);
+    current.setMonth(current.getMonth() + 1);
+    this.currentDate = current;
+    this.loadCalendar(); // Llama a tu método para cargar el calendario
   }
 
   openEventModal(date: string): void {

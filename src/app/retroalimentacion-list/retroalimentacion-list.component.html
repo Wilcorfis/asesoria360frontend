@@ -1,9 +1,53 @@
 <h2 class="mb-5">mis retroalimentaciones</h2>
 <div class="text-end">
-    <button class="btn btn-primary" routerLink="nuevoretroalimentacion"> 
-        Nueva retroalimentacion
-
-    </button>
 
 </div>
+@if(isLoggedIn){
+    <table class="table table-hover">
+        <thead>
+            <tr>
+
+           
+                <th>asignatura</th>
+                <th>Tutor</th>
+                <th>horario</th>
+                <th>puntaje</th>
+                <th>comentarios</th>
+                <th>fecha_retroalimentacion</th>
+    
+            </tr>
+        </thead>    
+            <tbody>
+                @for(retro of retroalimentacion; track retro.id_retroalimentacion){
+    
+                    <tr>
+                        <td style="display: none;">{{retro.id_retroalimentacion}}</td>
+                        <td>{{retro.asesoria.asignatura.nombre}}</td>
+                        <td>{{retro.asesoria.tutor.correo}}</td>
+                        <td>{{retro.asesoria.horario.hora_inicio}}</td>
+                        <td>{{retro.puntaje}}</td>
+                        <td>{{retro.comentarios}}</td>
+                        <td>{{retro.fecha_retroalimentacion|date:'dd/MM/yyyy'}}</td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-primary" [routerLink]="['/',retro.id_retroalimentacion,'editarretroalimentacion']">
+                                    Editar retro
+                                </button>
+                                <!--<button class="btn btn-danger" (click)="deleteUsuario(usuario)">
+                                    Eliminar
+                                </button>-->
+    
+                            </div>
+    
+                        </td>
+                    </tr>
+                }
+    
+            </tbody>
+    
+    
+       
+    
+    </table>
+    }
 

@@ -2,21 +2,61 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RetroalimentacionService } from '../services/retroalimentacion.service';
 import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Usuario } from '../model/usuario.interface';
+import { AuthService } from '../services/auth.service';
+import { Subscription } from 'rxjs';
 import { Retroalimentacion } from '../model/retroalimentacion.interface';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
-  selector: 'app-retroalimentacion-list',
+  selector: 'retroalimentacion-list-app',
   standalone: true,
   imports: [DatePipe,RouterModule],
   templateUrl: './retroalimentacion-list.component.html',
   styleUrl: './retroalimentacion-list.component.css'
 })
-export default class RetroalimentacionListComponent implements OnInit {
+export default class UsuarioListComponent implements OnInit {
   private retroalimentacionService=inject(RetroalimentacionService);
+  retroalimentacion:any[]=[]
+  private usuarioService=inject(UsuarioService);
+
+  usuario: Usuario| null = null;
+
+
+  isLoggedIn: boolean = false;
+  email: string | null = null;
+  constructor(private authService: AuthService) {}
+  
 
   ngOnInit(): void {
-   
+    this.usuarioService.getUsuario().subscribe((usuario) => {
+      this.usuario = usuario; // Almacenar el usuario en la variable
+    });
+    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+    });
+
+
+    
+
+    this.loadAll();
+
+
+    
+
 
   }
   
+ 
+  loadAll(){
+    const idUsuario: number = this.usuario?.id_usuario ?? 0;
+
+    this.retroalimentacionService.getporidusuario(idUsuario)
+    .subscribe(retro=>{
+      
+      this.retroalimentacion=retro;
+      console.log(this.retroalimentacion)
+    });
+  }
+
 }
