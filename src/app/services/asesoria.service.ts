@@ -18,7 +18,7 @@ export class AsesoriaService {
     return this.http.get<Asesoria[]>(`https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/estudiante/${id}`)
   }
   get(id: number){
-    return this.http.get<Asesoria>(`https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${id}`);
+    return this.http.get<any>(`https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${id}`);
   }
   create(asesoria: Asesoria){
     return this.http.post<Asesoria>('https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias',asesoria)
@@ -27,7 +27,7 @@ export class AsesoriaService {
     return this.http.put<Asesoria>(`https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${id}`,asesoria)
   }
   delete(id:number){
-    return this.http.delete<void>(`https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${id}`)
+    return this.http.delete<void>(`http://localhost:8080/asesorias/${id}`)
   }
 ///http://localhost:8080
 //https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios

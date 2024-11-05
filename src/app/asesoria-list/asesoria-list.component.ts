@@ -72,5 +72,12 @@ export default class AsesoriaListComponent implements OnInit {
      
     });
   }
+  deleteasesoria(ase: Asesoria){
+    this.asesoriaService.delete(ase.id_asesoria)
+    .subscribe(()=>{
+      this.loadAll();
+
+    })
+  }
 
 }

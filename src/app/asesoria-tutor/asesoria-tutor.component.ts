@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { UsuarioService } from '../services/usuario.service';
 import { AsesoriaService } from '../services/asesoria.service';
+import { SuscripcionasesoriaService } from '../services/suscripcionasesoria.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Usuario } from '../model/usuario.interface';
@@ -18,6 +19,7 @@ import { AuthService } from '../services/auth.service';
 })
 export default class AsesoriaTutorComponent implements OnInit {
   private usuarioService=inject(UsuarioService);
+  private suscripcionService=inject(SuscripcionasesoriaService);
   calendarWeeks: any[][] = [];
   asesoria:any[]=[]; // Array para almacenar las asesorías
   usuario: Usuario| null = null;
@@ -84,6 +86,11 @@ export default class AsesoriaTutorComponent implements OnInit {
     asesorias.forEach(asesoria => {
            // Convertir fecha de la asesoría al formato 'yyyy-MM-dd'
            const fechaformato = new Date(asesoria.fecha_asesoria);
+           this.suscripcionService.contarestudiante(asesoria.id_asesoria).subscribe(
+            cont=>{
+              asesoria.cont=cont
+            }
+           )
         
           
            var fecha=new Date(`${fechaformato.getFullYear()}-${fechaformato.getMonth()+1}-${fechaformato.getDate()}`).toISOString().split('T')[0];

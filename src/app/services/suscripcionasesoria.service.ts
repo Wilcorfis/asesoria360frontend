@@ -14,6 +14,9 @@ export class SuscripcionasesoriaService {
   get(id: number){
     return this.http.get<Suscripcionasesoria>(`https://new-christen-wilcorfis-23727a02.koyeb.app/suscripcionasesoria/${id}`);
   }
+  contarestudiante(id: number){
+    return this.http.get<any>(`https://new-christen-wilcorfis-23727a02.koyeb.app/suscripcionasesoria/contar-estudiantes/${id}`);
+  }
   getbyidusuario(id: number){
     return this.http.get<Suscripcionasesoria>(`https://new-christen-wilcorfis-23727a02.koyeb.app/suscripcionasesoria/suscripcionporidusuario/${id}`);
   }

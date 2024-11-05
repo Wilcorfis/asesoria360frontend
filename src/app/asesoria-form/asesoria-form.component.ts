@@ -32,7 +32,7 @@ export default class AsesoriaFormComponent implements OnInit {
   private asesoriaService=inject(AsesoriaService)
   private router=inject(Router);
   form?:FormGroup
-  asesoria?:Asesoria
+  asesoria: any| null = null;
   constructor(
     private horarioService: HorarioService,
 
@@ -75,20 +75,23 @@ export default class AsesoriaFormComponent implements OnInit {
     if(id){
       this.asesoriaService.get(parseInt(id))
       .subscribe(asesoria=>{
+        console.log(asesoria)
         this.asesoria=asesoria
         var fechaformato = new Date(asesoria.fecha_asesoria)
+       
         var fecha=new Date(`${fechaformato.getFullYear()}-${fechaformato.getMonth()+1}-${fechaformato.getDate()}`).toISOString().split('T')[0];
-        /*this.form=this.fb.group({
-          fk_id_horario :[asesoria.fk_id_horario,[Validators.required]],
-          fk_id_usuariotut :[asesoria.fk_id_usuariotut,[Validators.required]],
-          fk_id_asignatura :[asesoria.fk_id_asignatura,[Validators.required]],
-          fecha_creacion :[asesoria.fecha_creacion,[Validators.required]],
-          fecha_asesoria :[asesoria.fecha_asesoria,[Validators.required]],
+        
+        this.form=this.fb.group({
+          horario :[asesoria.horario.id_horario,[Validators.required]],
+          tutor :[asesoria.tutor.id_usuario,[Validators.required]],
+          asignatura :[asesoria.asignatura.id_asignatura,[Validators.required]],
+          fecha_creacion :[new Date().toISOString().split('T')[0],[Validators.required]],
+          fecha_asesoria :[fecha,[Validators.required]],
           ubicacion  :[asesoria.ubicacion,[Validators.required]],
-          estado :[asesoria.estado,[Validators.required]],
+          estado :['modificada',[Validators.required]],
           visibilidad :[asesoria.visibilidad,[Validators.required]],
           capacidad :[asesoria.capacidad,[Validators.required]],
-        });*/
+        });
 
 
         })
@@ -126,23 +129,24 @@ export default class AsesoriaFormComponent implements OnInit {
   save(){
     
     const asesoriaForm=this.form!.value;
+    const idUsuario: number = this.usuario?.id_usuario ?? 0; // Cambia 0 por el valor que desees
+    asesoriaForm["tutor"] ={"id_usuario":idUsuario};
+ 
+    asesoriaForm["horario"] = {"id_horario":asesoriaForm["horario"]}
+    asesoriaForm["asignatura"] = {"id_asignatura":asesoriaForm["asignatura"]}
   
     
     if (this.asesoria) {
       this.asesoriaService.update(this.asesoria.id_asesoria,asesoriaForm).subscribe(()=>{
-        this.router.navigate([''])
+        this.router.navigate(['/listarasesoria'])
   
       })
       
     } else {
 
       
-      const idUsuario: number = this.usuario?.id_usuario ?? 0; // Cambia 0 por el valor que desees
-      asesoriaForm["tutor"] ={"id_usuario":idUsuario};
    
-      asesoriaForm["horario"] = {"id_horario":asesoriaForm["horario"]}
-      asesoriaForm["asignatura"] = {"id_asignatura":asesoriaForm["asignatura"]}
-      console.log(asesoriaForm);
+      //console.log(asesoriaForm);
       this.asesoriaService.create(asesoriaForm).subscribe(()=>{
         this.router.navigate(['/dashboard'])
   
@@ -150,6 +154,7 @@ export default class AsesoriaFormComponent implements OnInit {
       
     }
   }
+  
   
 
 }
