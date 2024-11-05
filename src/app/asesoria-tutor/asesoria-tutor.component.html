@@ -38,7 +38,8 @@
         <div *ngFor="let asesoria of day.asesorias" class="mt-1 p-1 rounded bg-light text-dark">
           <small class="d-block">{{ asesoria.asignatura.nombre }} - Tutor: {{ asesoria.tutor.correo }}</small>
           <small> {{asesoria.horario.hora_inicio}} {{asesoria.horario.hora_fin}}</small>
-          <small> {{asesoria?.cont}}</small>
+          <small> - Inscritos :{{asesoria?.cont}}</small>
+          <br>
           <a href="{{asesoria.ubicacion}}">{{asesoria.ubicacion}}</a>
         </div>
       </div>

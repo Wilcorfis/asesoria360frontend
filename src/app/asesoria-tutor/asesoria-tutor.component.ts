@@ -88,6 +88,7 @@ export default class AsesoriaTutorComponent implements OnInit {
            const fechaformato = new Date(asesoria.fecha_asesoria);
            this.suscripcionService.contarestudiante(asesoria.id_asesoria).subscribe(
             cont=>{
+              console.log(cont)
               asesoria.cont=cont
             }
            )
