@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { Usuario } from '../model/usuario.interface';
 import { Asesoria } from '../model/asesoria.interface';
 import { AuthService } from '../services/auth.service';
+import { SuscripcionasesoriaService } from '../services/suscripcionasesoria.service';
+import { Suscripcionasesoria } from '../model/suscripcionasesoria.interface';
 
 
 @Component({
@@ -18,6 +20,7 @@ import { AuthService } from '../services/auth.service';
 export default class AsesoriaListComponent implements OnInit {
   private usuarioService=inject(UsuarioService);
   asesoria:any[]=[];
+  suscripcion:any | null=null
 
   
   usuario: Usuario| null = null;
@@ -25,7 +28,8 @@ export default class AsesoriaListComponent implements OnInit {
   isLoggedIn: boolean = false;
 
   constructor(private authService: AuthService,
-    private asesoriaService :AsesoriaService
+    private asesoriaService :AsesoriaService,
+    private suscripcionService:SuscripcionasesoriaService
   ) {}
  
   
@@ -38,6 +42,7 @@ export default class AsesoriaListComponent implements OnInit {
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });
+    this
 
 
     
@@ -51,16 +56,20 @@ export default class AsesoriaListComponent implements OnInit {
   }
 
  
-  loadAll(){
-    
-
+  loadAll(){   
+    const idUsuario: number = this.usuario?.id_usuario ?? 0;
     this.asesoriaService.list()
     .subscribe(asesorias=>{
-      console.log(asesorias)
-      
-      
-     
       this.asesoria=asesorias;
+      this.suscripcionService.getbyidusuario(idUsuario).subscribe(suscri=>{
+        this.suscripcion=suscri;
+      }
+          
+
+      )
+      //console.log(asesorias)
+
+     
     });
   }
 

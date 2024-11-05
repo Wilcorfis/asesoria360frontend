@@ -85,11 +85,17 @@
               <p class="mb-1 text-secondary"><strong>Ubicación:</strong> <a
                   href="{{ asesoria.ubicacion }}">{{ asesoria.ubicacion
                   }}</a></p>
-              <a
+                  @if(!retroalimentacion || retroalimentacion.asesoria.id_asesoria!=asesoria.id_asesoria){
+              <a 
                 [routerLink]="['/', asesoria.id_asesoria, 'nuevoretroalimentacion']"
                 class="btn btn-sm mt-1 btn-secondary">
                 Calificar asesoria
               </a>
+            }@else{
+              <div>
+                ya calificaste
+              </div>
+            }
             </div>
           </div>
         </div>

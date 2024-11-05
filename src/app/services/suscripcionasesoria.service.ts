@@ -14,6 +14,9 @@ export class SuscripcionasesoriaService {
   get(id: number){
     return this.http.get<Suscripcionasesoria>(`https://new-christen-wilcorfis-23727a02.koyeb.app/suscripcionasesoria/${id}`);
   }
+  getbyidusuario(id: number){
+    return this.http.get<Suscripcionasesoria>(`https://new-christen-wilcorfis-23727a02.koyeb.app/suscripcionasesoria/suscripcionporidusuario/${id}`);
+  }
   create(suscripcionasesoria: Suscripcionasesoria){
     return this.http.post<Suscripcionasesoria>('https://new-christen-wilcorfis-23727a02.koyeb.app/suscripcionasesoria',suscripcionasesoria)
   }

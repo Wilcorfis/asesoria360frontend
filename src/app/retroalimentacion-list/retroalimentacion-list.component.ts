@@ -55,8 +55,16 @@ export default class UsuarioListComponent implements OnInit {
     .subscribe(retro=>{
       
       this.retroalimentacion=retro;
-      console.log(this.retroalimentacion)
+      //console.log(this.retroalimentacion)
     });
   }
+  deleteretro(retro: Retroalimentacion){
+    this.retroalimentacionService.delete(retro.id_retroalimentacion)
+    .subscribe(()=>{
+      this.loadAll();
+
+    })
+  }
+
 
 }

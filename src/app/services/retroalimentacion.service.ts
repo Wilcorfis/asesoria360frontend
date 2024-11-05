@@ -11,12 +11,15 @@ export class RetroalimentacionService {
   list(){
     return this.http.get<Retroalimentacion[]>('https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones')
   }
+  getporidusuario2(id: number){
+    return this.http.get<Retroalimentacion>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/retroalimentaionporidusuario2/${id}`);
+  }
 
   getporidusuario(id: number){
     return this.http.get<Retroalimentacion[]>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/retroalimentaionporidusuario/${id}`);
   }
   get(id: number){
-    return this.http.get<Retroalimentacion>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/${id}`);
+    return this.http.get<any>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/${id}`);
   }
   create(retroalimentacion: Retroalimentacion){
     return this.http.post<Retroalimentacion>('https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones',retroalimentacion)

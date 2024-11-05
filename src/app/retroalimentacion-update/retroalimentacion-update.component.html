@@ -1,0 +1,46 @@
+
+<h2 class="mb-5">
+    @if(retroalimentacion){
+        Editar
+    }@else{
+        Nuevo retroalimentacion
+
+    }
+</h2>
+
+<div class="row row-cols-3 justify-content-center">
+    @if(form){
+    <form [formGroup]="form" (ngSubmit)="save()">
+
+        <div class="mb-3">
+            <label for="puntaje">Puntaje</label>
+            <input id="puntaje" type="number" 
+                class="form-control" formControlName="puntaje">
+        </div>
+
+        <div class="mb-3">
+            <label for="comentarios">comentarios</label>
+            <textarea id="comentarios" type="text" 
+                class="form-control" formControlName="comentarios"></textarea>
+        </div>
+
+        
+        <div class="text-end">
+            <button type="button" class="btn btn-light " routerLink="/listarretroalimentacion">
+                Cancelar
+
+            </button>
+            <button class="btn btn-light ms-2">
+                @if(retroalimentacion){
+                    Actualizar retroalimentacion
+                }@else{
+                    Crear retroalimentacion
+            
+                }
+            </button>
+
+        </div>
+
+    </form>
+}
+</div>

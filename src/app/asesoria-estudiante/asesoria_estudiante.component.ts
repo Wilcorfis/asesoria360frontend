@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { Usuario } from '../model/usuario.interface';
 import { Asesoria } from '../model/asesoria.interface';
 import { AuthService } from '../services/auth.service';
+import { RetroalimentacionService } from '../services/retroalimentacion.service';
 
 
 
@@ -22,6 +23,7 @@ export default class AsesoriaEstudianteComponent implements OnInit {
   calendarWeeks: any[][] = [];
   asesoria:any[]=[]; // Array para almacenar las asesorías
   usuario: Usuario| null = null;
+  retroalimentacion: any| null = null;
   isLoggedIn: boolean = false;
   currentDate: Date = new Date();
   events: { [key: string]: string } = {};
@@ -80,7 +82,7 @@ export default class AsesoriaEstudianteComponent implements OnInit {
   cargarAsesorias(): void {
     const idUsuario: number = this.usuario?.id_usuario ?? 0;
     this.asesoriaService.getbyidestudiante(idUsuario).subscribe(asesorias => {
-      console.log(asesorias)
+      //console.log(asesorias)
 
       this.asesoria=asesorias;
       this.highlightDates(asesorias); // Llama al método para resaltar las fechas de asesorías
@@ -124,7 +126,8 @@ export default class AsesoriaEstudianteComponent implements OnInit {
 
 
   constructor(private authService: AuthService,
-    private asesoriaService :AsesoriaService
+    private asesoriaService :AsesoriaService,
+    private retroalimentacionService :RetroalimentacionService
   ) {}
  
   
@@ -141,6 +144,14 @@ export default class AsesoriaEstudianteComponent implements OnInit {
     this.loadCalendar();
     //this.loadAll();
     this.cargarAsesorias();
+    const idUsuario: number = this.usuario?.id_usuario ?? 0;
+    this.retroalimentacionService.getporidusuario2(idUsuario).subscribe(
+      retro=>{
+        this.retroalimentacion=retro
+        //console.log(retro);
+      }
+     
+    )
   }
   countAsesoriasInDay(dateKey: string): number {
     return Array.isArray(this.asesoriasPorFecha[dateKey]) ? this.asesoriasPorFecha[dateKey].length : 0;
@@ -148,7 +159,7 @@ export default class AsesoriaEstudianteComponent implements OnInit {
 
  
   loadAll(){
-    
+
 
     this.asesoriaService.getbyidestudiante(this.usuario!.id_usuario)
     .subscribe(asesorias=>{

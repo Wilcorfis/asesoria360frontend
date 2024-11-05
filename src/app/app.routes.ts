@@ -86,7 +86,7 @@ export const routes: Routes = [
 
     }, 
     {path:':id/editarretroalimentacion',
-        loadComponent:()=>import('./retroalimentacion-form/retroalimentacion-form.component')
+        loadComponent:()=>import('./retroalimentacion-update/retroalimentacion-update.component')
 
     }, 
     {path:'listarnotificacion',

@@ -43,13 +43,30 @@
                     <td class="text-end">
                         @if(asesoria.visibilidad=="publico" && usuario?.rol=="Estudiante"){
                         <div class="btn-group">
+                            @if(!suscripcion ||suscripcion.asesoria.id_asesoria!=asesoria.id_asesoria){
                             <button class="btn btn-primary" [routerLink]="['/',asesoria.id_asesoria,'suscripcionasesoria']">
                                 Inscribirme
                             </button>
                             <!--<button class="btn btn-danger" (click)="deleteUsuario(usuario)">
                                 Eliminar
                             </button>-->
-
+                        }@else{
+                            <div>
+                                Ya esta inscrito
+                            </div>
+                        }                       
+                        </div>
+                    }
+                    @if(usuario?.rol=="Tutor"){
+                        <div class="btn-group">
+                         
+                            <button class="btn btn-primary" [routerLink]="['/',asesoria.id_asesoria,'editarasesoria']">
+                                Modificar
+                            </button>
+                            <!--<button class="btn btn-danger" (click)="deleteUsuario(usuario)">
+                                Eliminar
+                            </button>-->
+                                 
                         </div>
                     }
                     </td>

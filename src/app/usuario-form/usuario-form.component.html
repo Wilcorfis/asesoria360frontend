@@ -41,9 +41,11 @@
                 class="form-control" formControlName="segundo_apellido">
         </div>
         <div class="mb-3">
-            <label for="rol">rol</label>
-            <input id="rol" type="text" placeholder="nombre"
-                class="form-control" formControlName="rol">
+            <label for="rol">Selecciona tu rol</label>
+            <select class="form-control" id="rol" formControlName="rol">
+              <option value="Estudiante">Estudiante</option>
+              <option value="Tutor">Tutor</option>
+            </select>
         </div>
         <div class="mb-3">
             <label for="codigotutor">codigotutor</label>

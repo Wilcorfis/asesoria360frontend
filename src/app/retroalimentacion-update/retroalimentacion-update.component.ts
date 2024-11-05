@@ -7,40 +7,52 @@ import { UsuarioService } from '../services/usuario.service';
 import { Usuario } from '../model/usuario.interface';
 
 @Component({
-  selector: 'app-retroalimentacion-form',
+  selector: 'app-retroalimentacion-update',
   standalone: true,
   imports: [RouterModule,ReactiveFormsModule],
-  templateUrl: './retroalimentacion-form.component.html',
-  styleUrl: './retroalimentacion-form.component.css'
+  templateUrl: './retroalimentacion-update.component.html',
+  styleUrl: './retroalimentacion-update.component.css'
 })
-export default class RetroalimentacionFormComponent implements OnInit {
+export default class RetroalimentacionUpdateComponent implements OnInit {
   private fb=inject(FormBuilder);
   private route=inject(ActivatedRoute);
   private retroalimentacionService=inject(RetroalimentacionService)
   private usuarioService=inject(UsuarioService)
   private router=inject(Router);
   usuario: Usuario | null = null;
-  idAsesoria!: number;
+  
   form?:FormGroup
-  retroalimentacion?:Retroalimentacion
+  retroalimentacion: any| null = null;
 
   ngOnInit():void{
     
     this.usuarioService.getUsuario().subscribe((usuario) => {
       this.usuario = usuario; // Almacenar el usuario en la variable
     });
-    this.idAsesoria = +this.route.snapshot.paramMap.get('id')!;
+    const id=this.route.snapshot.paramMap.get('id');
     const idUsuario: number = this.usuario?.id_usuario ?? 0;
-    if(this.idAsesoria){
+    if(id){
+      this.retroalimentacionService.get(parseInt(id))
+      .subscribe(retro=>{
+        this.retroalimentacion=retro
+        var fechaformato = new Date(retro.fecha_retroalimentacion)
+        var fecha=new Date(`${fechaformato.getFullYear()}-${fechaformato.getMonth()+1}-${fechaformato.getDate()}`).toISOString().split('T')[0];
 
-      this.form=this.fb.group({
-        estudiante :[{"id_usuario": idUsuario},[Validators.required]],
-        asesoria :[{"id_asesoria":this.idAsesoria},[Validators.required]],
-        puntaje :['',[Validators.required]],
-        comentarios :['',[Validators.required]],
-        fecha_retroalimentacion :[new Date().toISOString().split('T')[0],[Validators.required]],
+
+        
+
+        this.form=this.fb.group({
+          estudiante :[{"id_usuario": idUsuario},[Validators.required]],
+          asesoria :[{"id_asesoria":retro.asesoria.id_asesoria},[Validators.required]],
+          puntaje :[retro.puntaje,[Validators.required]],
+          comentarios :[retro.comentarios,[Validators.required]],
+          fecha_retroalimentacion :[fecha,[Validators.required]],
+  
+        });
 
       });
+
+
 
     }
   
@@ -49,16 +61,11 @@ export default class RetroalimentacionFormComponent implements OnInit {
     const retroalimentacionForm=this.form!.value;
     //console.log(retroalimentacionForm)
     if (this.retroalimentacion) {
-      /*this.usuarioService.update(this.usuario.id_usuario,usuarioForm).subscribe(()=>{
-        this.router.navigate([''])
-  
-      })*/
-      
-    } else {
-      this.retroalimentacionService.create(retroalimentacionForm).subscribe(()=>{
+      this.retroalimentacionService.update(this.retroalimentacion.id_retroalimentacion,retroalimentacionForm).subscribe(()=>{
         this.router.navigate(['/listarretroalimentacion'])
   
-      })     
+      })
+      
     }
   }
   
