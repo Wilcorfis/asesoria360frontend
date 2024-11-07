@@ -33,6 +33,7 @@ export default class AsesoriaFormComponent implements OnInit {
   private router=inject(Router);
   form?:FormGroup
   asesoria: any| null = null;
+    static form: any;
   constructor(
     private horarioService: HorarioService,
 

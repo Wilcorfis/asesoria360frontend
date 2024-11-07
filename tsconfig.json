@@ -3,6 +3,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "types": ["node","jest"],
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
@@ -19,11 +21,28 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
+ 
+    "noImplicitAny": true,
+    "removeComments": true,
+    "strictNullChecks": true,
+    "noEmitOnError": true,
+    
+
     "lib": [
       "ES2022",
       "dom"
     ]
   },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "tests/**/*.ts"
+  
+  ]
+ 
+
+
+,
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
