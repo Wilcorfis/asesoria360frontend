@@ -76,37 +76,52 @@ describe('AsesoriaFormComponent', () => {
   });
 
   it('should call asesoriaService.create when creating a new asesoria', () => {
+    // Asegúrate de inicializar los valores de los campos del formulario
     component.ngOnInit();
     component.form?.patchValue({
-      horario: 1,
-      asignatura: 1,
+      horario: {"id_horario":1},
+      tutor: {"id_usuario":1},
+      asignatura: {"id_asignatura":1},
       fecha_asesoria: '2023-12-01',
       ubicacion: 'Aula 101',
       visibilidad: 'publico',
       capacidad: 10
     });
 
-    spyOn(mockAsesoriaService, 'create').and.callThrough();
+    // Configura el spy antes de llamar a `save`
+    const createSpy = spyOn(mockAsesoriaService, 'create').and.callThrough();
+    
+    // Ejecuta el método `save`, que debería llamar a `create`
     component.save();
-    expect(mockAsesoriaService.create).toHaveBeenCalled();
+
+    // Verifica que el método `create` haya sido llamado una vez
+    expect(createSpy).toHaveBeenCalled();
   });
 
   it('should call asesoriaService.update when updating an existing asesoria', () => {
+    // Inicializa la asesoria existente y valores del formulario
     component.ngOnInit();
     component.asesoria = { id_asesoria: 1 };
     component.form?.patchValue({
-      horario: 1,
-      asignatura: 1,
+      horario: {"id_horario":1},
+      tutor: {"id_usuario":1},
+      asignatura: {"id_asignatura":1},
       fecha_asesoria: '2023-12-01',
       ubicacion: 'Aula 101',
       visibilidad: 'publico',
       capacidad: 10
     });
 
-    spyOn(mockAsesoriaService, 'update').and.callThrough();
+    // Configura el spy para `update`
+    const updateSpy = spyOn(mockAsesoriaService, 'update').and.callThrough();
+    
+    // Llama a `save`, que debería usar `update`
     component.save();
-    expect(mockAsesoriaService.update).toHaveBeenCalledWith(1, jasmine.any(Object));
+
+    // Verifica que `update` haya sido llamado con los argumentos esperados
+    expect(updateSpy).toHaveBeenCalledWith(1, jasmine.any(Object));
   });
+
 });
 
 

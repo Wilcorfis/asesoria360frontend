@@ -3,7 +3,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "types": ["node","jest"],
+    "types": ["node","jest","chai","cypress","mocha"],
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "strict": true,
@@ -36,7 +36,8 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "cypress/**/*.ts"
   
   ]
  

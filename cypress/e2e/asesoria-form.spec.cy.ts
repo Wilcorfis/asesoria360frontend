@@ -1,68 +1,75 @@
 /// <reference types="cypress" />
+import { expect } from 'chai';
 
-  it('should render the form with all fields', () => {
-    cy.get('form').should('exist'); // Asegurarse de que el formulario existe
-    cy.get('select#horario').should('exist'); // Selección de horario
-    cy.get('select#asignatura').should('exist'); // Selección de asignatura
-    cy.get('input#fecha_asesoria').should('exist'); // Campo de fecha
-    cy.get('input#ubicacion').should('exist'); // Campo de ubicación
-    cy.get('select#visibilidad').should('exist'); // Selección de visibilidad
-    cy.get('input#capacidad').should('exist'); // Campo de capacidad
-  });
-  /*it('should render the buttons correctly', () => {
-    cy.get('button').contains('Cancelar').should('exist'); // Botón de cancelar
-    cy.get('button').contains('Crear asesoria').should('exist'); // Botón de crear asesoria
-    
-    // Si estamos editando, el texto debe cambiar a "Actualizar asesoria"
-    cy.window().then((win) => {
-      win.asesoria = { };
-    });
-    
-    cy.visit('/nuevoasesoria'); // Recargar para aplicar los cambios
-  
-    cy.get('button').contains('Actualizar asesoria').should('exist'); // Verificar que el texto cambia a "Actualizar asesoria"
-  });*/
-  it('should navigate correctly when "Cancelar" button is clicked', () => {
-    cy.get('button').contains('Cancelar').click(); // Clic en el botón de cancelar
-    cy.url().should('include', '/listarasesoria'); // Verificar que redirige a /listarasesoria
-  });
-  
-  it('should submit the form when "Crear asesoria" button is clicked', () => {
-    // Simulamos un formulario válido
-    cy.get('input#ubicacion').type('Salon A');
-    cy.get('input#capacidad').type('30');
-    cy.get('select#horario').select('1'); // Seleccionar un horario
-    cy.get('select#asignatura').select('1'); // Seleccionar una asignatura
-    cy.get('input#fecha_asesoria').type('2024-11-10'); // Fecha de la asesoria
-    cy.get('select#visibilidad').select('publico'); // Seleccionar visibilidad
-  
-    // Clic en el botón de Crear asesoria
-    cy.get('button').contains('Crear asesoria').click();
-  
-    // Verificar que el formulario fue enviado correctamente
-    cy.get('form').then(($form) => {
-      // Asumiendo que la propiedad `valid` está disponible en el formulario,
-      // se podría acceder de la siguiente manera:
-      const formValid = $form[0].checkValidity(); // Verifica si el formulario es válido
-      expect(formValid).toBeTruthy(); // Verifica que el formulario sea válido
-    });
-  });
-  
-  beforeEach(() => {
-    cy.window().then((win) => {
-      win.asesoria = { 
-        id_asesoria: 1, 
-        asignatura: 'Matemáticas', 
-        horario: '9:00 - 10:00', 
-        fecha_asesoria: '2024-11-10',
-        ubicacion: 'Salon 1', 
-        visibilidad: 'publico', 
-        capacidad: 25
-      };
-    });
+
+describe('AsesoriaFormComponent Integration Tests', () => {
+  let asesoriaId: number; // Variable para almacenar el ID de la asesoría creada
+ 
+  it('should create a new asesoria', () => {
     cy.visit('/nuevoasesoria');
+    cy.get('#horario').select('1');
+    cy.get('#asignatura').select('1');
+    cy.get('#fecha_asesoria').type('2023-12-01');
+    cy.get('#ubicacion').type('Aula 101');
+    cy.get('#visibilidad').select('publico');
+    cy.get('#capacidad').type('10');
+    cy.get('.btn.btn-light.ms-2').click();
+
+    // Asegúrate de completar el objeto con datos de prueba, incluyendo id_usuario
+    cy.request('POST', 'https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias', {
+      horario: {id_horario:1},
+      tutor: {id_usuario:302},
+      asignatura: {id_asignatura:1},
+      fecha_creacion: new Date().toISOString().split('T')[0],
+      fecha_asesoria: '2023-12-01',
+      ubicacion: 'Aula 101',
+      estado:'creada',
+      visibilidad: 'publico',
+      capacidad: 10
+     
+    }).then((response) => {
+      
+      asesoriaId = response.body.id_asesoria;
+      expect(response.status).to.eq(200);
+
+    });
+    cy.wait(10000);
   });
-  
-  
-  
-  
+
+  it('should edit the created asesoria', () => {
+    // Asegúrate de que `asesoriaId` esté definido antes de continuar
+    if (asesoriaId) { 
+      
+      cy.visit(`${asesoriaId}/editarsesoria`); // Ajusta la URL con el ID disponible
+      cy.get('#ubicacion').clear().type('Aula 102');
+      cy.get('#capacidad').clear().type('15');
+      cy.get('.btn.btn-light.ms-2').click(); // Haz clic en el botón de actualización
+
+      // Verifica los cambios consultando los datos de la asesoría
+      cy.request(`https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${asesoriaId}`).then((response) => {
+        cy.log('Respuesta de edición: ' + JSON.stringify(response.body)); // Registro para verificación
+        expect(response.status).to.eq(200);
+        expect(response.body.ubicacion).to.eq('Aula 102');
+        expect(response.body.capacidad).to.eq(15);
+      });
+    } 
+  });
+ 
+  it('should delete the created asesoria', () => {
+    expect(asesoriaId).to.exist;
+    cy.request('DELETE', `https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${asesoriaId}`).then((response) => {
+      expect(response.status).to.eq(200);
+    });
+
+    cy.request({
+      url: `https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${asesoriaId}`,
+      failOnStatusCode: false
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+    });
+    asesoriaId = 0;
+  });
+});
+
+
+

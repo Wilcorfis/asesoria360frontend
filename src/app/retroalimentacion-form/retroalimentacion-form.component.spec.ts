@@ -90,23 +90,7 @@ describe('RetroalimentacionFormComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/listarretroalimentacion']);
   });
 
- /* it('should not submit if form is invalid', () => {
-    // Simula un formulario con datos inválidos (sin puntaje y sin comentarios)
-    component.form?.setValue({
-      estudiante: { id_usuario: 1 },
-      asesoria: { id_asesoria: 1 },
-      puntaje: '',
-      comentarios: '',
-      fecha_retroalimentacion: new Date().toISOString().split('T')[0]
-    });
-  
-    // Llamar a save() cuando el formulario es inválido
-    component.save();
-  
-    // Verifica que el servicio no haya sido llamado
-    expect(retroalimentacionServiceMock.create).not.toHaveBeenCalled();
-  });
-  */
+ 
 });
 
 

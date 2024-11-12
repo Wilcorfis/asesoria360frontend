@@ -136,25 +136,26 @@ export default class AsesoriaFormComponent implements OnInit {
     asesoriaForm["horario"] = {"id_horario":asesoriaForm["horario"]}
     asesoriaForm["asignatura"] = {"id_asignatura":asesoriaForm["asignatura"]}
   
-    
+    if (this.form?.valid) {
     if (this.asesoria) {
-      // if (this.form?.valid) {
+       
       this.asesoriaService.update(this.asesoria.id_asesoria,asesoriaForm).subscribe(()=>{
         this.router.navigate(['/listarasesoria'])
   
       })
+    
       
     } else {
-
       
-   
-      //console.log(asesoriaForm);
+
       this.asesoriaService.create(asesoriaForm).subscribe(()=>{
         this.router.navigate(['/dashboard'])
   
       })
+    
       
     }
+  }
   }
   
   
