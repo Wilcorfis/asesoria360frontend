@@ -2,7 +2,7 @@
 <div class="text-end">
 
 </div>
-@if(isLoggedIn){
+@if(usuario){
 <table class="table table-hover">
     <thead>
         <tr>
@@ -37,7 +37,7 @@
                     
    
                     <td class="text-end">
-                        @if(asesoria.visibilidad=="publico" && usuario?.rol=="Estudiante"){
+                        @if(asesoria.visibilidad=="publico" && usuario.rol=="Estudiante"){
                         <div class="btn-group">
                             @if(!suscripcion ||suscripcion.asesoria.id_asesoria!=asesoria.id_asesoria){
                             <button class="btn btn-primary" [routerLink]="['/',asesoria.id_asesoria,'suscripcionasesoria']">
@@ -51,7 +51,7 @@
                         }                       
                         </div>
                     }
-                    @if(usuario?.rol=="Tutor"){
+                    @if(usuario.rol=="Tutor"){
                         <div class="btn-group">
                          
                             <button class="btn btn-primary" [routerLink]="['/',asesoria.id_asesoria,'editarasesoria']">

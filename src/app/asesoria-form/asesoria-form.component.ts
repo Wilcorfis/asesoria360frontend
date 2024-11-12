@@ -55,9 +55,7 @@ export default class AsesoriaFormComponent implements OnInit {
 
   ngOnInit():void{
 
-    this.usuarioService.getUsuario().subscribe((usuario) => {
-      this.usuario = usuario; // Almacenar el usuario en la variable
-    });
+    this.obtenerUsuario(); 
     this.loadHorarios();
     this.loadAsignaturas();
     this.form2?.get('fk_id_horario')?.valueChanges.subscribe(value => {
@@ -112,7 +110,33 @@ export default class AsesoriaFormComponent implements OnInit {
       
     }
   }
+ 
+    obtenerUsuario(): void {
+      // Verificar si ya tenemos el usuario en localStorage
+      const usuarioLocalStorage = localStorage.getItem('usuario');
+      if (usuarioLocalStorage) {
+        // Si existe, se lo asignamos directamente
+        this.usuario = JSON.parse(usuarioLocalStorage);
+        console.log('Usuario recuperado de localStorage:', this.usuario);
+      } else {
+        // Si no existe en localStorage, hacemos la llamada al servicio
+        this.usuarioService.getUsuario().subscribe(
+          (usuario) => {
+            this.usuario = usuario;  // Almacenar el usuario en la variable
+            console.log('Usuario obtenido:', this.usuario);
+            
+            // Guardar el usuario en localStorage
+            localStorage.setItem('usuario', JSON.stringify(this.usuario));
+          },
+          (error) => {
+            console.error('Error al obtener el usuario:', error);
+          }
+        );
+      }
+    }
   
+
+
   
   loadHorarios(): void {
     this.horarioService.list().subscribe((data) => {
@@ -136,7 +160,7 @@ export default class AsesoriaFormComponent implements OnInit {
     asesoriaForm["horario"] = {"id_horario":asesoriaForm["horario"]}
     asesoriaForm["asignatura"] = {"id_asignatura":asesoriaForm["asignatura"]}
   
-    if (this.form?.valid) {
+    
     if (this.asesoria) {
        
       this.asesoriaService.update(this.asesoria.id_asesoria,asesoriaForm).subscribe(()=>{
@@ -155,7 +179,7 @@ export default class AsesoriaFormComponent implements OnInit {
     
       
     }
-  }
+  
   }
   
   

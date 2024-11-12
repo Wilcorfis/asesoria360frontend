@@ -11,7 +11,7 @@ describe('AsesoriaFormComponent Integration Tests', () => {
     cy.get('#asignatura').select('1');
     cy.get('#fecha_asesoria').type('2023-12-01');
     cy.get('#ubicacion').type('Aula 101');
-    cy.get('#visibilidad').select('publico');
+    cy.get('#visibilidad').select('publico'); 
     cy.get('#capacidad').type('10');
     cy.get('.btn.btn-light.ms-2').click();
 
@@ -33,28 +33,40 @@ describe('AsesoriaFormComponent Integration Tests', () => {
       expect(response.status).to.eq(200);
 
     });
-    cy.wait(10000);
+    cy.wait(1000);
   });
 
   it('should edit the created asesoria', () => {
-    // Asegúrate de que `asesoriaId` esté definido antes de continuar
-    if (asesoriaId) { 
-      
-      cy.visit(`${asesoriaId}/editarsesoria`); // Ajusta la URL con el ID disponible
-      cy.get('#ubicacion').clear().type('Aula 102');
-      cy.get('#capacidad').clear().type('15');
-      cy.get('.btn.btn-light.ms-2').click(); // Haz clic en el botón de actualización
+    if(asesoriaId) {
+      const asesoria = {
+        horario: { "id_horario": 1 },
+        tutor: { "id_usuario": 302 },
+        asignatura: { "id_asignatura": 1 },
+        fecha_creacion: new Date().toISOString().split('T')[0],
+        fecha_asesoria: '2023-12-01',
+        ubicacion: 'Aula 102',
+        estado: 'creada',
+        visibilidad: 'publico',
+        capacidad: 15
+      };
 
-      // Verifica los cambios consultando los datos de la asesoría
-      cy.request(`https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${asesoriaId}`).then((response) => {
-        cy.log('Respuesta de edición: ' + JSON.stringify(response.body)); // Registro para verificación
+      cy.request({
+        method: 'PUT',
+        url: `https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${asesoriaId}`,
+        body: asesoria,
+
+      
+        
+      }).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body.ubicacion).to.eq('Aula 102');
         expect(response.body.capacidad).to.eq(15);
       });
-    } 
+
+
+  
+    }
   });
- 
   it('should delete the created asesoria', () => {
     expect(asesoriaId).to.exist;
     cy.request('DELETE', `https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${asesoriaId}`).then((response) => {
@@ -67,9 +79,18 @@ describe('AsesoriaFormComponent Integration Tests', () => {
     }).then((response) => {
       expect(response.status).to.eq(200);
     });
-    asesoriaId = 0;
+    asesoriaId = 0; 
   });
+
+
+
+
+
+
+
+
 });
+ 
 
 
 

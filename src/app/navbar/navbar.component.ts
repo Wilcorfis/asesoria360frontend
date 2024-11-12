@@ -35,9 +35,8 @@ export class NavbarComponent implements OnInit {
   
 
   ngOnInit():void{
-    this.usuarioService.getUsuario().subscribe((usuario) => {
-      this.usuario = usuario; // Almacenar el usuario en la variable
-    });
+    this.obtenerUsuario();
+ 
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });
@@ -50,11 +49,36 @@ export class NavbarComponent implements OnInit {
 
 
 }
+obtenerUsuario(): void {
+  // Verificar si ya tenemos el usuario en localStorage
+  const usuarioLocalStorage = localStorage.getItem('usuario');
+  if (usuarioLocalStorage) {
+    // Si existe, se lo asignamos directamente
+    this.usuario = JSON.parse(usuarioLocalStorage);
+
+    console.log('Usuario recuperado de localStorage:', this.usuario);
+  } else {
+    // Si no existe en localStorage, hacemos la llamada al servicio
+    this.usuarioService.getUsuario().subscribe(
+      (usuario) => {
+        this.usuario = usuario;  // Almacenar el usuario en la variable
+        console.log('Usuario obtenido:', this.usuario);
+        
+        // Guardar el usuario en localStorage
+        localStorage.setItem('usuario', JSON.stringify(this.usuario));
+      },
+      (error) => {
+        console.error('Error al obtener el usuario:', error);
+      }
+    );
+  }
+}
 
 
 // Método para cerrar sesión
 logout() {
   this.authService.logout();
+  localStorage.removeItem("usuario");
   this.router.navigate(['']);
   
 }

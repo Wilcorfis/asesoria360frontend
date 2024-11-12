@@ -88,7 +88,9 @@ export class LoginComponent implements OnInit {
           this.usuarioService.list(correo)
           .subscribe(usuarios=>{
             this.usuarioService.setUsuario(usuarios)
+            localStorage.setItem('usuario', JSON.stringify(usuarios));
           });
+        
           this.router.navigate(['/dashboard']);
 
 
