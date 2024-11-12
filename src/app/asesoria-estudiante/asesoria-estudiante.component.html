@@ -1,9 +1,5 @@
 <h2 class="mb-5">Tdoas las asesorias de estado publico</h2>
 <div class="text-end">
-  <!--<button class="btn btn-primary" routerLink="/nuevousuario"> 
-        Nuevo Usuario
-
-    </button>-->
 
 </div>
 <div class="container">
@@ -35,12 +31,7 @@
       <div *ngIf="day">
         <!-- Número del día -->
         <span class="fw-bold">{{ day.day }}</span>
-        <!--<div *ngFor="let asesoria of day.asesorias">
-          
-        </div>-->
-              <!-- Mostrar la cantidad de asesorías en el día -->
 
-        <!-- Botón para ver más asesorías mas de 2 -->
         <div *ngIf="day.asesorias.length > 0" class="text-center mt-1">
           <small class="text-muted">Total Asesorías: {{ day.asesorias.length }}</small>
       
@@ -57,8 +48,7 @@
     </div>
   </div>
 </div>
-<!-- Modal para ver todas las asesorías del día -->
-<!-- Modal para ver todas las asesorías del día -->
+
 <div class="custom-modal" *ngIf="isModalOpen">
   <div class="custom-modal-content">
     <div class="custom-modal-header">

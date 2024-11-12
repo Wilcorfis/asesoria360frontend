@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 
   it('should render the form with all fields', () => {
     cy.get('form').should('exist'); // Asegurarse de que el formulario existe
@@ -43,7 +44,7 @@
       // Asumiendo que la propiedad `valid` está disponible en el formulario,
       // se podría acceder de la siguiente manera:
       const formValid = $form[0].checkValidity(); // Verifica si el formulario es válido
-      expect(formValid).to.be.true; // Verifica que el formulario sea válido
+      expect(formValid).toBeTruthy(); // Verifica que el formulario sea válido
     });
   });
   

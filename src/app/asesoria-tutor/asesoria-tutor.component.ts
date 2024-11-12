@@ -31,10 +31,6 @@ export default class AsesoriaTutorComponent implements OnInit {
 
   asesoriasPorFecha: { [key: string]: any[] } = {}; // Almacena asesorías por fecha
   
- 
-
-
-
 
   loadCalendar(): void {
     const year = this.currentDate.getFullYear();
@@ -74,7 +70,7 @@ export default class AsesoriaTutorComponent implements OnInit {
   cargarAsesorias(): void {
     const idUsuario: number = this.usuario?.id_usuario ?? 0;
     this.asesoriaService.getbyidtutor(idUsuario).subscribe(asesorias => {
-      console.log(asesorias)
+      //console.log(asesorias)
       this.asesoria=asesorias;
       this.highlightDates(asesorias); // Llama al método para resaltar las fechas de asesorías
     });
@@ -88,7 +84,7 @@ export default class AsesoriaTutorComponent implements OnInit {
            const fechaformato = new Date(asesoria.fecha_asesoria);
            this.suscripcionService.contarestudiante(asesoria.id_asesoria).subscribe(
             cont=>{
-              console.log(cont)
+        
               asesoria.cont=cont
             }
            )
@@ -118,9 +114,6 @@ export default class AsesoriaTutorComponent implements OnInit {
     this.loadCalendar(); // Llama a tu método para cargar el calendario
   }
 
-  openEventModal(date: string): void {
-    // Lógica para abrir el modal de eventos
-  }
 
   constructor(private authService: AuthService,
     private asesoriaService :AsesoriaService
@@ -138,19 +131,9 @@ export default class AsesoriaTutorComponent implements OnInit {
       this.isLoggedIn = isLoggedIn;
     });
     this.loadCalendar();
-    //this.loadAll();
     this.cargarAsesorias();
   }
 
- 
-  loadAll(){
-    
 
-    this.asesoriaService.getbyidtutor(this.usuario!.id_usuario)
-    .subscribe(asesorias=>{
-
-      this.asesoria=asesorias;
-    });
-  }
 
 }

@@ -55,7 +55,7 @@ export default class UsuarioFormComponent implements OnInit {
         primer_apellido :['',[Validators.required]],
         segundo_apellido :['',[Validators.required]],
         rol :['',[Validators.required]],
-        codigotutor :['',[Validators.required]],
+        codigotutor :['123',[Validators.required]],
         correo :['',[Validators.required]],
         sexo :['',[Validators.required]],
         telefono :['',[Validators.required]],
@@ -70,16 +70,21 @@ export default class UsuarioFormComponent implements OnInit {
   save(){
     const usuarioForm=this.form!.value;
     if (this.usuario) {
+      if (this.form?.valid) {
+      
       this.usuarioService.update(this.usuario.id_usuario,usuarioForm).subscribe(()=>{
         this.router.navigate([''])
   
       })
+    }
       
     } else {
+      if (this.form?.valid) {
       this.usuarioService.create(usuarioForm).subscribe(()=>{
         this.router.navigate([''])
   
       })
+    }
       
     }
 

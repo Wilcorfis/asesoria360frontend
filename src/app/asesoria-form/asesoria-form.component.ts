@@ -76,7 +76,7 @@ export default class AsesoriaFormComponent implements OnInit {
     if(id){
       this.asesoriaService.get(parseInt(id))
       .subscribe(asesoria=>{
-        console.log(asesoria)
+        //console.log(asesoria)
         this.asesoria=asesoria
         var fechaformato = new Date(asesoria.fecha_asesoria)
        
@@ -138,6 +138,7 @@ export default class AsesoriaFormComponent implements OnInit {
   
     
     if (this.asesoria) {
+      // if (this.form?.valid) {
       this.asesoriaService.update(this.asesoria.id_asesoria,asesoriaForm).subscribe(()=>{
         this.router.navigate(['/listarasesoria'])
   

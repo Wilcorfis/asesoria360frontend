@@ -1,9 +1,5 @@
-<h2 class="mb-5">Tdoas las asesorias de estado publico</h2>
+<h2 class="mb-5">Todas las asesorias</h2>
 <div class="text-end">
-    <!--<button class="btn btn-primary" routerLink="/nuevousuario"> 
-        Nuevo Usuario
-
-    </button>-->
 
 </div>
 @if(isLoggedIn){
@@ -47,9 +43,7 @@
                             <button class="btn btn-primary" [routerLink]="['/',asesoria.id_asesoria,'suscripcionasesoria']">
                                 Inscribirme
                             </button>
-                            <!--<button class="btn btn-danger" (click)="deleteUsuario(usuario)">
-                                Eliminar
-                            </button>-->
+
                         }@else{
                             <div>
                                 Ya esta inscrito

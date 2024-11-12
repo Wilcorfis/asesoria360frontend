@@ -42,16 +42,8 @@ export default class AsesoriaListComponent implements OnInit {
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });
-    this
-
-
-    
 
     this.loadAll();
-
-
-    
-
 
   }
 
@@ -67,7 +59,7 @@ export default class AsesoriaListComponent implements OnInit {
           
 
       )
-      //console.log(asesorias)
+   
 
      
     });

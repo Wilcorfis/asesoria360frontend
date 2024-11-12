@@ -47,18 +47,16 @@ export default class RetroalimentacionFormComponent implements OnInit {
   }
   save(){
     const retroalimentacionForm=this.form!.value;
-    //console.log(retroalimentacionForm)
+ 
     if (this.retroalimentacion) {
-      /*this.usuarioService.update(this.usuario.id_usuario,usuarioForm).subscribe(()=>{
-        this.router.navigate([''])
-  
-      })*/
+
       
     } else {
+      if (this.form?.valid) {
       this.retroalimentacionService.create(retroalimentacionForm).subscribe(()=>{
         this.router.navigate(['/listarretroalimentacion'])
   
-      })     
+      })   }   
     }
   }
   
