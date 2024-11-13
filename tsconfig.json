@@ -3,7 +3,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "types": ["node","jest","chai","cypress","mocha"],
+    "types": ["node","jest","chai","cypress"],
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "strict": true,
@@ -37,8 +37,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "tests/**/*.ts",
-    "cypress/**/*.ts"
-  
+    "cypress/**/*.js"
+, "cypress/e2e/asesoria-update.spec.cy.js", "cypress/e2e/asesoria-form.spec.cy.js"  
   ]
  
 

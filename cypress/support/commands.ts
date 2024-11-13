@@ -37,11 +37,7 @@
 // }
 // cypress/support/commands.d.ts
 
-declare global {
-    interface Window {
-      asesoria?: any; // Puedes usar un tipo más específico si lo sabes, como `asesoria?: AsesoriaType;`
-    }
-  }
+
   
-  export {}; // Necesario para que TypeScript lo considere un módulo
+ 
   

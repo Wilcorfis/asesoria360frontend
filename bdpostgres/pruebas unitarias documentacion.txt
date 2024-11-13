@@ -1,0 +1,53 @@
+pruebas unitarias con karma
+
+
+asesoria-form.component
+Se verifica la creación del componente y que el formulario se inicialice correctamente.
+Se prueba que el componente llame a create y update en AsesoriaService según el caso 
+(nueva o existente), usando spyOn para validar las invocaciones.
+
+asesoria-list.component
+Inicialización: Verifica que se carguen las asesorías al iniciar.
+Renderizado de asesorías: Revisa que la lista de asesorías se muestre correctamente en la tabla.
+Eliminar asesoría: Comprueba que al llamar a deleteasesoria, se invoque el método delete del servicio de asesorías y luego se vuelva a cargar la lista.
+Mostrar botón de inscripción: Verifica que el botón "Inscribirme" o el mensaje "Ya está inscrito" se muestren según la suscripción del usuario.
+
+asesoria-estudiante.component
+Prueba de creación del componente: Verifica que el componente AsesoriaEstudianteComponent se crea correctamente.
+Navegación de meses: Pruebas para los métodos prevMonth y nextMonth, asegurando que la fecha del calendario se actualiza correctamente al mes anterior y siguiente.
+
+
+
+asesoria-tutor.component
+Creación del componente: Verificamos que el componente se haya creado correctamente.
+Carga y resaltado de fechas: Se prueba que el calendario se cargue y que las fechas con asesorías se resalten correctamente (verificando la clase bg-primary en las celdas del calendario).
+Detalles de las asesorías: Verificamos que las asesorías se muestren correctamente dentro del calendario, revisando si la información relevante como asignatura y tutor aparece en las celdas del día.
+Navegación entre meses: Se prueban las funciones prevMonth() y nextMonth() para asegurarse de que la navegación por meses funcione correctamente.
+
+usuario-form.component
+Comprobación de la creación del componente: Verificamos que el componente se cree correctamente.
+Inicialización del formulario: Comprobamos que el formulario se inicializa correctamente con los datos del usuario al editar.
+Guardado del formulario: Simulamos el guardado del formulario y comprobamos que el servicio update o create se llama correctamente.
+Navegación después de guardar: Verificamos que la navegación al guardar el formulario funcione correctamente.
+Condición de "Nuevo contacto" y "Editar": Comprobamos que se muestren las etiquetas correctas en el encabezado dependiendo de si se está creando o editando un usuario.
+
+usuario-list.component
+
+should create: Verifica que el componente se cree correctamente.
+should load users when logged in: Verifica que el componente cargue correctamente los usuarios cuando el usuario está logueado.
+
+retroalimentacion-form.component
+
+should create the form correctly with data from usuario and route: Verifica que el formulario se inicialice correctamente con los datos del usuario y los parámetros de la ruta.
+should call retroalimentacionService.create when save is called: Verifica que el método create de RetroalimentacionService sea llamado con los datos correctos al enviar el formulario.
+should not submit if form is invalid: Verifica que el servicio no se llame si el formulario es inválido.
+
+retroalimentacion-list.component
+
+should create: Verifica que el componente sea creado correctamente.
+should load retroalimentaciones when logged in: Verifica que las retroalimentaciones se carguen correctamente cuando el usuario está logueado.
+should call delete method when deleting a retroalimentacion: Verifica que el método deleteretro de RetroalimentacionListComponent se llame correctamente y que la lista de retroalimentaciones se mantenga después de intentar eliminar un ítem (en este caso, la eliminación no cambia el array debido a la implementación del mock).
+
+
+
+

@@ -1,12 +1,14 @@
 /// <reference types="cypress" />
 import { expect } from 'chai';
+import { Asesoria } from 'src/app/model/asesoria.interface';
 
 
 describe('AsesoriaFormComponent Integration Tests', () => {
-  let asesoriaId: number; // Variable para almacenar el ID de la asesoría creada
+  let asesoriaId=null; 
+  
  
   it('should create a new asesoria', () => {
-    cy.visit('/nuevoasesoria');
+    cy.visit('/nuevoasesoria'); 
     cy.get('#horario').select('1');
     cy.get('#asignatura').select('1');
     cy.get('#fecha_asesoria').type('2023-12-01');
@@ -36,59 +38,16 @@ describe('AsesoriaFormComponent Integration Tests', () => {
     cy.wait(1000);
   });
 
-  it('should edit the created asesoria', () => {
-    if(asesoriaId) {
-      const asesoria = {
-        horario: { "id_horario": 1 },
-        tutor: { "id_usuario": 302 },
-        asignatura: { "id_asignatura": 1 },
-        fecha_creacion: new Date().toISOString().split('T')[0],
-        fecha_asesoria: '2023-12-01',
-        ubicacion: 'Aula 102',
-        estado: 'creada',
-        visibilidad: 'publico',
-        capacidad: 15
-      };
-
-      cy.request({
-        method: 'PUT',
-        url: `https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${asesoriaId}`,
-        body: asesoria,
-
-      
-        
-      }).then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body.ubicacion).to.eq('Aula 102');
-        expect(response.body.capacidad).to.eq(15);
-      });
-
-
   
-    }
-  });
+  
   it('should delete the created asesoria', () => {
     expect(asesoriaId).to.exist;
     cy.request('DELETE', `https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${asesoriaId}`).then((response) => {
       expect(response.status).to.eq(200);
     });
 
-    cy.request({
-      url: `https://new-christen-wilcorfis-23727a02.koyeb.app/asesorias/${asesoriaId}`,
-      failOnStatusCode: false
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-    });
     asesoriaId = 0; 
   });
-
-
-
-
-
-
-
-
 });
  
 

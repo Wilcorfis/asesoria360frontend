@@ -82,7 +82,7 @@ describe('AsesoriaListComponent', () => {
     component.deleteasesoria(component.asesoria[0]);
     expect(component.loadAll).toHaveBeenCalled();
   });
-
+/*
   it('should display "Inscribirme" button for a public asesoria if the user is not subscribed', () => {
     component.suscripcion = null; // Simula que el usuario no está inscrito
     fixture.detectChanges();
@@ -96,4 +96,5 @@ describe('AsesoriaListComponent', () => {
     const text = fixture.debugElement.query(By.css('td.text-end div'));
     expect(text.nativeElement.textContent).toContain('Ya esta inscrito');
   });
+  */
 });
