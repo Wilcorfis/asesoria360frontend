@@ -25,6 +25,13 @@ export class UsuarioService {
   delete(id:number){
     return this.http.delete<void>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/${id}`)
   }
+  constructor() {
+    // Inicializa el estado con el usuario del localStorage si existe
+    const usuario = this.getUsuarioFromStorage();
+    if (usuario) {
+      this.setUsuario(usuario);
+    }
+  }
 
 ///http://localhost:8080
 //https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios
@@ -46,6 +53,21 @@ setUsuario(usuario: Usuario): void {
 // Método para limpiar el usuario
 clearUsuario(): void {
   this.usuarioSubject.next(null); // Limpia el usuario
+}
+ // Guarda el usuario en el localStorage
+ private saveUsuarioToStorage(usuario: Usuario): void {
+  localStorage.setItem('usuario', JSON.stringify(usuario));
+}
+
+// Obtiene el usuario del localStorage
+private getUsuarioFromStorage(): Usuario | null {
+  const usuario = localStorage.getItem('usuario');
+  return usuario ? JSON.parse(usuario) : null;
+}
+
+// Limpia el usuario del localStorage
+private clearUsuarioFromStorage(): void {
+  localStorage.removeItem('usuario');
 }
 
 }

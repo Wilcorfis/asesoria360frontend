@@ -1,0 +1,32 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+footer {
+  background-color: #343a40; /* Fondo oscuro */
+  color: #fff; /* Texto blanco */
+  width: 100%;
+  padding-top: 10px;
+}
+
+.d-flex {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegura que el contenedor tenga al menos la altura de la pantalla */
+}
+
+.flex-grow-1 {
+  flex-grow: 1; /* Hace que el contenido principal crezca y empuje el footer hacia abajo */
+}
+
+.container {
+  padding-bottom: 70px; /* Asegura que el footer no cubra el contenido */
+}
+
+
+
+
+  
+  

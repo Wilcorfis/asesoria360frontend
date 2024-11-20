@@ -77,8 +77,11 @@ obtenerUsuario(): void {
 
 // Método para cerrar sesión
 logout() {
+
+  this.usuarioService.clearUsuario(); // Limpia el usuario en el servicio
+
   this.authService.logout();
-  localStorage.removeItem("usuario");
+  localStorage.removeItem('usuario');
   this.router.navigate(['']);
   
 }

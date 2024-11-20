@@ -73,7 +73,7 @@ export default class UsuarioFormComponent implements OnInit {
       
       
       this.usuarioService.update(this.usuario.id_usuario,usuarioForm).subscribe(()=>{
-        this.router.navigate(['/dashboard'])
+        this.router.navigate(['/listarusuario'])
   
       })
     

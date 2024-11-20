@@ -37,14 +37,13 @@ export default class UsuarioListComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
-      this.isLoggedIn = isLoggedIn;
-    });
+ 
 
     // Suscribirse a los cambios en el correo electrónico
 
     
       this.emailSubscription = this.authService.getEmail().subscribe(email => {
+        
         this.email = email; // Actualiza el correo cuando cambie
       });
     
@@ -65,6 +64,7 @@ export default class UsuarioListComponent implements OnInit {
 
     this.usuarioService.list(this.email)
     .subscribe(usuarios=>{
+     
      
       this.usuario=usuarios;
     });

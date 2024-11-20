@@ -1,17 +1,19 @@
-
-<h2 class="mb-5">
-
-</h2>
-
-<div class="row row-cols-3 justify-content-center">
-    <div>
-        <button (click)="iniciarSesionConGoogle()">Iniciar sesión con Google</button>
-        
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+  <div class="card shadow p-4" style="max-width: 400px; width: 100%; border-radius: 10px;">
+    <div class="card-body text-center">
+      <h3 class="card-title mb-4">Bienvenido</h3>
+      <p class="card-text mb-4">Por favor, selecciona una opción para continuar.</p>
+      <div class="d-grid gap-3">
+        <!-- Botón de Iniciar sesión -->
+        <button class="btn btn-primary btn-lg" (click)="iniciarSesionConGoogle()">
+          <i class="fab fa-google me-2"></i> Iniciar sesión con Google
+        </button>
+        <!-- Botón de Registrarse -->
+        <button class="btn btn-success btn-lg" (click)="registrarConGoogle()">
+          <i class="fas fa-user-plus me-2"></i> Registrarse con Google
+        </button>
       </div>
-      <div>
-        <button (click)="registrarConGoogle()">Registrarse con Google</button>
-       
-      </div>
-      
-  
+    </div>
+  </div>
 </div>
+
