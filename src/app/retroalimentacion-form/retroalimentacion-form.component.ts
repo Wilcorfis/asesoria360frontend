@@ -23,6 +23,17 @@ export default class RetroalimentacionFormComponent implements OnInit {
   idAsesoria!: number;
   form?:FormGroup
   retroalimentacion?:Retroalimentacion
+  onKeyDown(evt:KeyboardEvent):boolean{
+    var code = (evt.which) ? evt.which : evt.keyCode;
+    if(code==8) { // backspace.
+      return true;
+    } else if(code>=49 && code<=53) {
+    return true // is a number.
+
+    }
+    return false
+  }
+
 
   ngOnInit():void{
     

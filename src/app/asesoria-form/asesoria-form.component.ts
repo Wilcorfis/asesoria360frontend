@@ -23,7 +23,7 @@ export default class AsesoriaFormComponent implements OnInit {
   form2?: FormGroup
   usuario: Usuario | null = null;
   email: string = '';
-
+  minDate: string = '';
   horarios: any[] = [];
   asignaturas: any[] = [];
 
@@ -54,6 +54,12 @@ export default class AsesoriaFormComponent implements OnInit {
 
 
   ngOnInit():void{
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Asegura formato "MM"
+    const day = today.getDate().toString().padStart(2, '0'); // Asegura formato "DD"
+
+    this.minDate = `${year}-${month}-${day}`; // Formato "YYYY-MM-DD"
 
     this.obtenerUsuario(); 
     this.loadHorarios();

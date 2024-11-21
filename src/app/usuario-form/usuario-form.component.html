@@ -61,7 +61,7 @@
         <div class="mb-3">
             <label for="fecha_nacimiento">fecha_nacimiento</label>
             <input id="fecha_nacimiento" type="date" placeholder="email"
-                class="form-control" formControlName="fecha_nacimiento">
+                class="form-control" formControlName="fecha_nacimiento" [max]="maxDate">
         </div>
         <div class="mb-3">
             <label for="descripcion">descripcion</label>

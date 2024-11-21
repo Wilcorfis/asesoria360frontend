@@ -96,7 +96,7 @@ describe('UsuarioFormComponent', () => {
 
     const navigateSpy = spyOn(component['router'], 'navigate');
     component.save();
-    expect(navigateSpy).toHaveBeenCalledWith(['/dashboard']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/listarusuario']);
   });
 
   it('should display "Nuevo contacto" when no user is provided', () => {

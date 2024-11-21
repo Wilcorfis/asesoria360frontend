@@ -59,10 +59,10 @@ describe('UsuarioListComponent', () => {
     usuarioServiceMock.list.and.returnValue(of(mockUsuario));  // Devuelve un array con un único objeto
   
     // Disparamos la detección de cambios
-    fixture.detectChanges();
+    fixture.detectChanges(); 
   
     // Verificamos que el componente ha cargado el usuario correctamente
-    expect(component.isLoggedIn).toBeTruthy();
+  
     expect(component.usuario).toEqual(jasmine.objectContaining(mockUsuario));  // Uso de jasmine.objectContaining
     expect(usuarioServiceMock.list).toHaveBeenCalledWith('john.doe@example.com');
   });

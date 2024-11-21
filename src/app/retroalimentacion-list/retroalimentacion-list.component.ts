@@ -71,12 +71,26 @@ export default class UsuarioListComponent implements OnInit {
   loadAll(){
     const idUsuario: number = this.usuario?.id_usuario ?? 0;
 
-    this.retroalimentacionService.getporidusuario(idUsuario)
-    .subscribe(retro=>{
+   
+    if(this.usuario?.rol=="Estudiante"){
+      this.retroalimentacionService.getporidusuario(idUsuario)
+      .subscribe(retro=>{
       
-      this.retroalimentacion=retro;
-      //console.log(this.retroalimentacion)
-    });
+        this.retroalimentacion=retro;
+        //console.log(retro)
+      });
+
+    }
+    if(this.usuario?.rol=="Tutor"){
+      this.retroalimentacionService.getporidtutor(idUsuario)
+      .subscribe(retro=>{
+      
+        this.retroalimentacion=retro;
+        //console.log(retro)
+      });
+
+    }
+
   }
   deleteretro(retro: Retroalimentacion){
     this.retroalimentacionService.delete(retro.id_retroalimentacion)

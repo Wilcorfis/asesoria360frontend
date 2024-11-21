@@ -12,16 +12,23 @@ import { Usuario } from '../model/usuario.interface';
   styleUrl: './usuario-form.component.css'
 })
 export default class UsuarioFormComponent implements OnInit {
+
   email: string = '';
   private fb=inject(FormBuilder);
   private route=inject(ActivatedRoute);
   private usuarioService=inject(UsuarioService)
   private router=inject(Router);
   
-
+  maxDate: string = '';
   form?:FormGroup
   usuario?:Usuario
   ngOnInit():void{
+    const today = new Date();
+    const maxYear = today.getFullYear() - 15;
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Asegura formato "MM"
+    const day = today.getDate().toString().padStart(2, '0'); // Asegura formato "DD"
+
+    this.maxDate = `${maxYear}-${month}-${day}`; // Formato "YYYY-MM-DD"
     this.route.queryParams.subscribe(params => {
       this.email = params['email'] || '';
     });

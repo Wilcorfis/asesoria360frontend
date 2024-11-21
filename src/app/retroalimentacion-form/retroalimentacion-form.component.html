@@ -14,8 +14,8 @@
 
         <div class="mb-3">
             <label for="puntaje">Puntaje</label>
-            <input id="puntaje" type="number" 
-                class="form-control" formControlName="puntaje">
+            <input id="puntaje" type="text" (keydown)="onKeyDown($event)" 
+                class="form-control" min="1" max="5" maxlength="1" pattern="[1-5]+"  formControlName="puntaje">
         </div>
 
         <div class="mb-3">
