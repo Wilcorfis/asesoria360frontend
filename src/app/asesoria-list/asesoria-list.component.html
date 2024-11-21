@@ -1,8 +1,42 @@
 <h2 class="mb-5">Todas las asesorias</h2>
-<div class="text-end">
-
-</div>
 @if(usuario){
+<div class="text-end">
+    <form [formGroup]="filterForm" class="row g-2">
+        <div class="col-md-3">
+          <input
+            type="text"
+            formControlName="tutor"
+            class="form-control"
+            placeholder="Buscar por tutor"
+          />
+        </div>
+        <div class="col-md-3">
+          <input
+            type="text"
+            formControlName="asignatura"
+            class="form-control"
+            placeholder="Buscar por asignatura"
+          />
+        </div>
+        <div class="col-md-3">
+          <input
+            type="date"
+            formControlName="fechaDesde"
+            class="form-control"
+            placeholder="Fecha desde"
+          />
+        </div>
+        <div class="col-md-3">
+          <input
+            type="date"
+            formControlName="fechaHasta"
+            class="form-control"
+            placeholder="Fecha hasta"
+          />
+        </div>
+      </form>
+  </div>
+
 <table class="table table-hover">
     <thead>
         <tr>
@@ -21,7 +55,7 @@
         </tr>
     </thead>    
         <tbody>
-            @for(asesoria of asesoria; track asesoria.id_asesoria){
+            @for(asesoria of filteredAsesorias; track asesoria.id_asesoria){
 
                 <tr>
                     <td style="display: none;">{{asesoria.id_asesoria}}</td>
