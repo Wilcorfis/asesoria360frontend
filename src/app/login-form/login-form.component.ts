@@ -85,10 +85,19 @@ export class LoginComponent implements OnInit {
         if (esValido) {
           //llamar login
           this.authService.login(correo);
+          localStorage.setItem('email', JSON.stringify(correo));
           this.usuarioService.list(correo)
           .subscribe(usuarios=>{
             this.usuarioService.setUsuario(usuarios)
             localStorage.setItem('usuario', JSON.stringify(usuarios));
+          });
+          this.usuarioService.generatoken(correo).subscribe(token => {          
+            // Guardar el token en localStorage
+            console.log(token)
+            localStorage.setItem('jwtToken', token);
+          
+          }, error => {
+            console.error('Error al validar el correo:', error);
           });
         
           this.router.navigate(['/dashboard']);
@@ -130,7 +139,7 @@ export class LoginComponent implements OnInit {
     return sessionStorage.getItem("correo")!== null;
   }
   logout() {
-    this.authService.logout();
+   
     this.router.navigate(['']);
   }
   

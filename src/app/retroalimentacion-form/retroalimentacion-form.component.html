@@ -1,46 +1,58 @@
-
 <h2 class="mb-5">
-    @if(retroalimentacion){
-        Editar
-    }@else{
-        Nuevo retroalimentacion
-
+    @if(retroalimentacion) {
+      Editar
+    } @else {
+      Nuevo retroalimentación
     }
-</h2>
-
-<div class="row row-cols-3 justify-content-center">
-    @if(form){
-    <form [formGroup]="form" (ngSubmit)="save()">
-
+  </h2>
+  
+  <div class="row row-cols-3 justify-content-center">
+    @if(form) {
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <!-- Selección de estrellas para puntaje -->
         <div class="mb-3">
-            <label for="puntaje">Puntaje</label>
-            <input id="puntaje" type="text" (keydown)="onKeyDown($event)" 
-                class="form-control" min="1" max="5" maxlength="1" pattern="[1-5]+"  formControlName="puntaje">
+          <label for="puntaje">Puntaje</label>
+          <div id="puntaje" class="d-flex align-items-center">
+            <!-- Generación dinámica de estrellas -->
+            <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+              <label class="star">
+                <input 
+                  type="radio" 
+                  formControlName="puntaje" 
+                  [value]="star"
+                  class="d-none" 
+                />
+                <span class="star-icon">&#9733;</span> <!-- Icono de estrella -->
+              </label>
+            </ng-container>
+          </div>
         </div>
-
+  
+        <!-- Campo de comentarios -->
         <div class="mb-3">
-            <label for="comentarios">comentarios</label>
-            <textarea id="comentarios" type="text" 
-                class="form-control" formControlName="comentarios"></textarea>
+          <label for="comentarios">Comentarios</label>
+          <textarea
+            id="comentarios"
+            class="form-control"
+            formControlName="comentarios"
+          ></textarea>
         </div>
-
-        
+  
+        <!-- Botones de acción -->
         <div class="text-end">
-            <button type="button" class="btn btn-light " routerLink="/listarretroalimentacion">
-                Cancelar
-
-            </button>
-            <button class="btn btn-light ms-2">
-                @if(retroalimentacion){
-                    Actualizar retroalimentacion
-                }@else{
-                    Crear retroalimentacion
-            
-                }
-            </button>
-
+          <button type="button" class="btn btn-light" routerLink="/listarretroalimentacion">
+            Cancelar
+          </button>
+          <button class="btn btn-light ms-2">
+            @if(retroalimentacion) {
+              Actualizar retroalimentación
+            } @else {
+              Crear retroalimentación
+            }
+          </button>
         </div>
-
-    </form>
-}
-</div>
+      </form>
+    }
+  </div>
+  
+  

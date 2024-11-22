@@ -179,7 +179,7 @@ export default class AsesoriaFormComponent implements OnInit {
       
 
       this.asesoriaService.create(asesoriaForm).subscribe(()=>{
-        this.router.navigate(['/dashboard'])
+        this.router.navigate(['/listarasesoria'])
   
       })
     

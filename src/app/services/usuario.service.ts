@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable,inject } from '@angular/core';
 import { Usuario } from '../model/usuario.interface';
 import { AuthService } from './auth.service';
@@ -13,17 +13,41 @@ export class UsuarioService {
   list(correo :string | null){
     return this.http.get<Usuario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/usuarioporcorreo/${correo}`)
   }
+  generatoken(correo :string | null){
+    return this.http.get<string>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/generartoken/${correo}`, { responseType: 'text' as 'json' })
+  }
   get(id: number){
     return this.http.get<Usuario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/${id}`);
   }
   create(usuario: Usuario){
-    return this.http.post<Usuario>('https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios',usuario)
+    const token = localStorage.getItem('jwtToken');
+
+    // Configurar los headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.post<Usuario>('https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios',usuario,{headers})
   }
   update(id: number,usuario: Usuario){
-    return this.http.put<Usuario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/${id}`,usuario)
+    const token = localStorage.getItem('jwtToken');
+
+    // Configurar los headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.put<Usuario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/${id}`,usuario,{headers})
   }
   delete(id:number){
-    return this.http.delete<void>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/${id}`)
+    const token = localStorage.getItem('jwtToken');
+
+    // Configurar los headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete<void>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/${id}`,{headers})
   }
   constructor() {
     // Inicializa el estado con el usuario del localStorage si existe

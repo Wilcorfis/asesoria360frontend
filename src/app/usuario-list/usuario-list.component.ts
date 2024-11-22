@@ -37,27 +37,57 @@ export default class UsuarioListComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.obtenerEmail();
  
 
     // Suscribirse a los cambios en el correo electrónico
 
     
-      this.emailSubscription = this.authService.getEmail().subscribe(email => {
-        
-        this.email = email; // Actualiza el correo cuando cambie
-      });
+
     
 
     this.loadAll();
 
-
-    
-
-
   }
-  ngOnDestroy() {
-    this.emailSubscription.unsubscribe(); // Limpia la suscripción al destruir el componente
+  obtenerEmail(): void {
+    // Verificar si ya tenemos el usuario en localStorage
+    const usuarioLocalStorage = localStorage.getItem('email');
+    if (usuarioLocalStorage) {
+      // Si existe, se lo asignamos directamente
+      this.email = JSON.parse(usuarioLocalStorage);
+  
+      console.log('Correo recuperado de localStorage:', this.email);
+    } else {
+      // Si no existe en localStorage, hacemos la llamada al servicio
+      this.authService.getEmail().subscribe(
+        (email) => {
+          this.email = email;  // Almacenar el usuario en la variable
+          console.log('email obtenido:', this.email);
+          
+          // Guardar el usuario en localStorage
+          localStorage.setItem('email', JSON.stringify(this.email));
+        },
+        (error) => {
+          console.error('Error al obtener el email:', error);
+        }
+      );
+    }
   }
+
+  extractAndFormatDate(string: string) {
+    // Expresión regular para fechas en formato yyyy-mm-dd o similar
+    const dateRegex = /(\d{4})[-\/](\d{2})[-\/](\d{2})/;
+    const match = string.match(dateRegex);
+
+    if (match) {
+        const [_, year, month, day] = match;
+        // Crear un string con el formato deseado
+        return `${year}-${month}-${day}`;
+    } else {
+        throw new Error("No se encontró una fecha válida en el string.");
+    }
+}
+  
  
   loadAll(){
     
@@ -71,7 +101,7 @@ export default class UsuarioListComponent implements OnInit {
   }
   deleteUsuario(usuario: Usuario){
     this.usuarioService.delete(usuario.id_usuario)
-    .subscribe(()=>{
+    .subscribe(()=>{  
       this.loadAll();
 
     })

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable,inject } from '@angular/core';
 import { Retroalimentacion } from '../model/retroalimentacion.interface';
 
@@ -26,13 +26,34 @@ export class RetroalimentacionService {
     return this.http.get<any>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/${id}`);
   }
   create(retroalimentacion: Retroalimentacion){
-    return this.http.post<Retroalimentacion>('https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones',retroalimentacion)
+    const token = localStorage.getItem('jwtToken');
+
+    // Configurar los headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.post<Retroalimentacion>('https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones',retroalimentacion,{headers})
   }
   update(id: number,retroalimentacion: Retroalimentacion){
-    return this.http.put<Retroalimentacion>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/${id}`,retroalimentacion)
+    const token = localStorage.getItem('jwtToken');
+
+    // Configurar los headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.put<Retroalimentacion>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/${id}`,retroalimentacion,{headers})
   }
   delete(id:number){
-    return this.http.delete<void>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/${id}`)
+    const token = localStorage.getItem('jwtToken');
+
+    // Configurar los headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete<void>(`https://new-christen-wilcorfis-23727a02.koyeb.app/retroalimentaciones/${id}`,{headers})
   }
 ///http://localhost:8080
 //https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios

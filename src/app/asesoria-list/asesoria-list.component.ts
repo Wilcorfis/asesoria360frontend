@@ -24,7 +24,7 @@ export default class AsesoriaListComponent implements OnInit {
   asesoria:any[]=[];
   filteredAsesorias: any[] = [];
   filterForm: FormGroup;
-  suscripcion:any | null=null
+  suscripcion:any[]=[];
 
   
   usuario: Usuario| null = null;
@@ -57,6 +57,12 @@ export default class AsesoriaListComponent implements OnInit {
     });
 
   }
+  isSubscribed(asesoriaId: number): boolean {
+    if (!this.suscripcion || !Array.isArray(this.suscripcion)) {
+      return false;
+    }
+    return this.suscripcion.some((sub: any) => sub.asesoria?.id_asesoria === asesoriaId);
+  }
   applyFilters(filters: any): void {
     this.filteredAsesorias = this.asesoria.filter((asesoria) => {
       const matchesTutor =
@@ -69,8 +75,8 @@ export default class AsesoriaListComponent implements OnInit {
         asesoria.asignatura.nombre.toLowerCase().includes(filters.asignatura.toLowerCase());
 
       const matchesFechaDesde =
-        !filters.fechaDesde ||
-        new Date(asesoria.fecha_asesoria) > new Date(filters.fechaDesde);
+        !this.extractAndFormatDate(filters.fechaDesde) ||
+        new Date(this.extractAndFormatDate(asesoria.fecha_asesoria)) >= new Date(this.extractAndFormatDate(filters.fechaDesde));
       const matchesFechaHasta =
         !filters.fechaHasta ||
         new Date(asesoria.fecha_asesoria) <= new Date(filters.fechaHasta);
@@ -78,6 +84,19 @@ export default class AsesoriaListComponent implements OnInit {
       return matchesTutor && matchesAsignatura && matchesFechaDesde && matchesFechaHasta;
     });
   }
+  extractAndFormatDate(string: string) {
+    // Expresión regular para fechas en formato yyyy-mm-dd o similar
+    const dateRegex = /(\d{4})[-\/](\d{2})[-\/](\d{2})/;
+    const match = string.match(dateRegex);
+
+    if (match) {
+        const [_, year, month, day] = match;
+        // Crear un string con el formato deseado
+        return `${year}-${month}-${day}`;
+    } else {
+        throw new Error("No se encontró una fecha válida en el string.");
+    }
+}
   obtenerUsuario(): void {
     // Verificar si ya tenemos el usuario en localStorage
     const usuarioLocalStorage = localStorage.getItem('usuario');
@@ -109,17 +128,13 @@ export default class AsesoriaListComponent implements OnInit {
     const idUsuario: number = this.usuario?.id_usuario ?? 0;
     this.asesoriaService.list()
     .subscribe(asesorias=>{
+      
       this.asesoria=asesorias;
       this.filteredAsesorias =asesorias;
       this.suscripcionService.getbyidusuario(idUsuario).subscribe(suscri=>{
         this.suscripcion=suscri;
       }
-          
-
-      )
-   
-
-     
+      )   
     });
   }
   deleteasesoria(ase: Asesoria){

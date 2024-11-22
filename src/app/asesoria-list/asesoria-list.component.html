@@ -1,113 +1,113 @@
-<h2 class="mb-5">Todas las asesorias</h2>
-@if(usuario){
-<div class="text-end">
+<h2 class="mb-5">Todas las asesorías</h2>
+@if (usuario) {
+  <div class="text-end">
     <form [formGroup]="filterForm" class="row g-2">
-        <div class="col-md-3">
-          <input
-            type="text"
-            formControlName="tutor"
-            class="form-control"
-            placeholder="Buscar por tutor"
-          />
-        </div>
-        <div class="col-md-3">
-          <input
-            type="text"
-            formControlName="asignatura"
-            class="form-control"
-            placeholder="Buscar por asignatura"
-          />
-        </div>
-        <div class="col-md-3">
-          <input
-            type="date"
-            formControlName="fechaDesde"
-            class="form-control"
-            placeholder="Fecha desde"
-          />
-        </div>
-        <div class="col-md-3">
-          <input
-            type="date"
-            formControlName="fechaHasta"
-            class="form-control"
-            placeholder="Fecha hasta"
-          />
-        </div>
-      </form>
+      <div class="col-md-3">
+        <input
+          type="text"
+          formControlName="tutor"
+          class="form-control"
+          placeholder="Buscar por tutor"
+        />
+      </div>
+      <div class="col-md-3">
+        <input
+          type="text"
+          formControlName="asignatura"
+          class="form-control"
+          placeholder="Buscar por asignatura"
+        />
+      </div>
+      <div class="col-md-3">
+        <input
+          type="date"
+          formControlName="fechaDesde"
+          class="form-control"
+          placeholder="Fecha desde"
+        />
+      </div>
+      <div class="col-md-3">
+        <input
+          type="date"
+          formControlName="fechaHasta"
+          class="form-control"
+          placeholder="Fecha hasta"
+        />
+      </div>
+    </form>
   </div>
 
-<table class="table table-hover">
+  <table class="table table-hover">
     <thead>
+      <tr>
+        <th>Horario</th>
+        <th>Tutor</th>
+        <th>Asignatura</th>
+        <th>Fecha creación</th>
+        <th>Fecha asesoría</th>
+        <th>Ubicación</th>
+        <th>Estado</th>
+        <th>Visibilidad</th>
+        <th>Capacidad</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (asesoria of filteredAsesorias; track asesoria.id_asesoria) {
         <tr>
-            <th>horario</th>
-            <th>tutor</th>
-            <th>asignatura</th>
-            <th>fecha creacion</th>
-            <th>fecha asesoria</th>
-            <th>ubicacion</th>
-            <th>estado</th>
-            <th>visibilidad</th>
-            <th>capacidad</th>
-     
-            <th></th>
+          <td style="display: none;">{{ asesoria.id_asesoria }}</td>
+          <td>
+            {{ asesoria.horario.hora_inicio }} - {{ asesoria.horario.hora_fin }}
+          </td>
+          <td>
+            {{ asesoria.tutor.primer_nombre }} {{ asesoria.tutor.primer_apellido }}
+          </td>
+          <td>{{ asesoria.asignatura.nombre }}</td>
+          <td>{{ extractAndFormatDate(asesoria.fecha_creacion) | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ extractAndFormatDate(asesoria.fecha_asesoria) | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ asesoria.ubicacion }}</td>
+          <td>{{ asesoria.estado }}</td>
+          <td>{{ asesoria.visibilidad }}</td>
+          <td>{{ asesoria.capacidad }}</td>
 
-        </tr>
-    </thead>    
-        <tbody>
-            @for(asesoria of filteredAsesorias; track asesoria.id_asesoria){
-
-                <tr>
-                    <td style="display: none;">{{asesoria.id_asesoria}}</td>
-                    <td>{{asesoria.horario.hora_inicio}} {{asesoria.horario.hora_fin}}</td>
-                    <td>{{asesoria.tutor.primer_nombre}} {{asesoria.tutor.primer_apellido}}</td>
-                    <td>{{asesoria.asignatura.nombre}}</td>
-                    <td>{{asesoria.fecha_creacion|date:'dd/MM/yyyy'}}</td>
-                    <td>{{asesoria.fecha_asesoria|date:'dd/MM/yyyy'}}</td>
-                    <td>{{asesoria.ubicacion}}</td>
-                    <td>{{asesoria.estado}}</td>
-                    <td>{{asesoria.visibilidad}}</td>
-                    <td>{{asesoria.capacidad}}</td>
-                    
-   
-                    <td class="text-end">
-                        @if(asesoria.visibilidad=="publico" && usuario.rol=="Estudiante"){
-                        <div class="btn-group">
-                            @if(!suscripcion ||suscripcion.asesoria.id_asesoria!=asesoria.id_asesoria){
-                            <button class="btn btn-primary" [routerLink]="['/',asesoria.id_asesoria,'suscripcionasesoria']">
-                                Inscribirme
-                            </button>
-
-                        }@else{
-                            <div>
-                                Ya esta inscrito
-                            </div>
-                        }                       
-                        </div>
-                    }
-                    @if(usuario.rol=="Tutor"){
-                        <div class="btn-group">
-                         
-                            <button class="btn btn-primary" [routerLink]="['/',asesoria.id_asesoria,'editarasesoria']">
-                                Modificar
-                            </button>
-                            <button class="btn btn-danger" (click)="deleteasesoria(asesoria)">
-                                Eliminar
-                            </button>
-                                 
-                        </div>
-                    }
-                    </td>
-                
-                </tr>
+          <td class="text-end">
+            <!-- Lógica para estudiantes -->
+            @if (asesoria.visibilidad == 'publico' && usuario.rol == 'Estudiante') {
+              <div class="btn-group">
+                <!-- Verificar si ya está inscrito -->
+                @if (isSubscribed(asesoria.id_asesoria)) {
+                  <div>Ya está inscrito</div>
+                } @else {
+                  <button
+                    class="btn btn-primary"
+                    [routerLink]="['/', asesoria.id_asesoria, 'suscripcionasesoria']"
+                  >
+                    Inscribirme
+                  </button>
+                }
+              </div>
             }
-
-        </tbody>
-
-
-   
-
-</table>
+            <!-- Lógica para tutores -->
+            @if (usuario.rol == 'Tutor') {
+              <div class="btn-group">
+                <button
+                  class="btn btn-primary"
+                  [routerLink]="['/', asesoria.id_asesoria, 'editarasesoria']"
+                >
+                  Modificar
+                </button>
+                <button class="btn btn-danger" (click)="deleteasesoria(asesoria)">
+                  Eliminar
+                </button>
+              </div>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
 }
+
+
 
     

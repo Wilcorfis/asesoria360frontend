@@ -37,10 +37,11 @@
       
         
     
-          <button class="btn btn-sm btn btn-secondary"
-            (click)="openEventModal(day.asesorias)">
-            Ver Todo
-          </button>
+          <button class="btn btn-sm btn-secondary"
+          (click)="openEventModal(day.dateKey)">
+          Ver Todo
+        </button>
+        
         </div>
 
       </div>
@@ -57,41 +58,22 @@
         class="close-button">X</button>
     </div>
     <div class="custom-modal-body">
-      <div *ngFor="let week of calendarWeeks">
-        <div *ngFor="let day of week"
-          [ngClass]="{ 'bg-primary text-white': day?.asesorias?.length > 0 }">
-          <div *ngIf="day">
-
-            <div *ngFor="let asesoria of day.asesorias"
-              class="mb-3 p-2 border rounded" >
-              <p class="mb-1"><strong>Asignatura:</strong> {{
-                asesoria.asignatura.nombre }}</p>
-              <p class="mb-1"><strong>Tutor:</strong> {{ asesoria.tutor.correo
-                }}</p>
-                
-              <p class="mb-1"><strong>Horario:</strong> {{
-                asesoria.horario.hora_inicio }} - {{ asesoria.horario.hora_fin
-                }}</p>
-              <p class="mb-1 text-secondary"><strong>Ubicación:</strong> <a
-                  href="{{ asesoria.ubicacion }}">{{ asesoria.ubicacion
-                  }}</a></p>
-                  @if(!retroalimentacion || retroalimentacion.asesoria.id_asesoria!=asesoria.id_asesoria){
-              <a 
-                [routerLink]="['/', asesoria.id_asesoria, 'nuevoretroalimentacion']"
-                class="btn btn-sm mt-1 btn-secondary">
-                Calificar asesoria
-              </a>
-            }@else{
-              <div>
-                ya calificaste
-              </div>
-            }
-            </div>
-          </div>
-        </div>
+      <div *ngFor="let asesoria of selectedDayAsesorias" class="mb-3 p-2 border rounded">
+        <p class="mb-1"><strong>Asignatura:</strong> {{ asesoria.asignatura.nombre }}</p>
+        <p class="mb-1"><strong>Tutor:</strong> {{ asesoria.tutor.correo }}</p>
+        <p class="mb-1"><strong>Horario:</strong> {{ asesoria.horario.hora_inicio }} - {{ asesoria.horario.hora_fin }}</p>
+        <p class="mb-1 text-secondary"><strong>Ubicación:</strong> <a href="{{ asesoria.ubicacion }}">{{ asesoria.ubicacion }}</a></p>
+        <ng-container *ngIf="!retroalimentacion || retroalimentacion.asesoria.id_asesoria !== asesoria.id_asesoria; else calificada">
+          <a [routerLink]="['/', asesoria.id_asesoria, 'nuevoretroalimentacion']" class="btn btn-sm mt-1 btn-secondary">
+            Calificar asesoría
+          </a>
+        </ng-container>
+        <ng-template #calificada>
+          <div>ya calificaste</div>
+        </ng-template>
       </div>
-
     </div>
+    
     <div class="custom-modal-footer">
       <button type="button" class="btn btn-secondary"
         (click)="closeModal()">Cerrar</button>

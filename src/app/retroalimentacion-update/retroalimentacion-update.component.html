@@ -14,9 +14,21 @@
 
         <div class="mb-3">
             <label for="puntaje">Puntaje</label>
-            <input id="puntaje" type="number" 
-                class="form-control" formControlName="puntaje">
-        </div>
+            <div id="puntaje" class="d-flex align-items-center">
+              <!-- Generación dinámica de estrellas -->
+              <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                <label class="star">
+                  <input 
+                    type="radio" 
+                    formControlName="puntaje" 
+                    [value]="star"
+                    class="d-none" 
+                  />
+                  <span class="star-icon">&#9733;</span> <!-- Icono de estrella -->
+                </label>
+              </ng-container>
+            </div>
+          </div>
 
         <div class="mb-3">
             <label for="comentarios">comentarios</label>

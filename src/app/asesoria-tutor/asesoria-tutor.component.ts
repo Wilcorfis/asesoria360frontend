@@ -75,13 +75,28 @@ export default class AsesoriaTutorComponent implements OnInit {
       this.highlightDates(asesorias); // Llama al método para resaltar las fechas de asesorías
     });
   }
+extractAndFormatDate(string: string) {
+    // Expresión regular para fechas en formato yyyy-mm-dd o similar
+    const dateRegex = /(\d{4})[-\/](\d{2})[-\/](\d{2})/;
+    const match = string.match(dateRegex);
+
+    if (match) {
+        const [_, year, month, day] = match;
+        // Crear un string con el formato deseado
+        return `${year}-${month}-${day}`;
+    } else {
+        throw new Error("No se encontró una fecha válida en el string.");
+    }
+}
+
+
 
   // Método para resaltar las fechas de asesorías
   highlightDates(asesorias: any[]): void {
     this.asesoriasPorFecha = {}
     asesorias.forEach(asesoria => {
            // Convertir fecha de la asesoría al formato 'yyyy-MM-dd'
-           const fechaformato = new Date(asesoria.fecha_asesoria);
+           const fechaformato = this.extractAndFormatDate(asesoria.fecha_asesoria);
            this.suscripcionService.contarestudiante(asesoria.id_asesoria).subscribe(
             cont=>{
         
@@ -90,7 +105,7 @@ export default class AsesoriaTutorComponent implements OnInit {
            )
         
           
-           var fecha=new Date(`${fechaformato.getFullYear()}-${fechaformato.getMonth()+1}-${fechaformato.getDate()}`).toISOString().split('T')[0];
+           var fecha=fechaformato
            if (!this.asesoriasPorFecha[fecha]) {
             this.asesoriasPorFecha[fecha] = [];
           }

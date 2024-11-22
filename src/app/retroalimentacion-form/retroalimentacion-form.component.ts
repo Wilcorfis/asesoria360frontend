@@ -5,11 +5,12 @@ import { RetroalimentacionService } from '../services/retroalimentacion.service'
 import { Retroalimentacion } from '../model/retroalimentacion.interface';
 import { UsuarioService } from '../services/usuario.service';
 import { Usuario } from '../model/usuario.interface';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-retroalimentacion-form',
   standalone: true,
-  imports: [RouterModule,ReactiveFormsModule],
+  imports: [RouterModule,ReactiveFormsModule,CommonModule],
   templateUrl: './retroalimentacion-form.component.html',
   styleUrl: './retroalimentacion-form.component.css'
 })

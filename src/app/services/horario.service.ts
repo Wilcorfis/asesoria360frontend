@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable,inject } from '@angular/core';
 import { Horario } from '../model/horario.interface';
 
@@ -15,13 +15,35 @@ export class HorarioService {
     return this.http.get<Horario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/horarios/${id}`);
   }
   create(horario: Horario){
-    return this.http.post<Horario>('https://new-christen-wilcorfis-23727a02.koyeb.app/horarios',horario)
+    const token = localStorage.getItem('jwtToken');
+
+    // Configurar los headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<Horario>('https://new-christen-wilcorfis-23727a02.koyeb.app/horarios',horario,{headers})
   }
   update(id: number,horario: Horario){
-    return this.http.put<Horario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/horarios/${id}`,horario)
+    const token = localStorage.getItem('jwtToken');
+
+    // Configurar los headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.put<Horario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/horarios/${id}`,horario,{headers})
   }
   delete(id:number){
-    return this.http.delete<void>(`https://new-christen-wilcorfis-23727a02.koyeb.app/horarios/${id}`)
+    const token = localStorage.getItem('jwtToken');
+
+    // Configurar los headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete<void>(`https://new-christen-wilcorfis-23727a02.koyeb.app/horarios/${id}`,{headers})
   }
 ///http://localhost:8080
 //https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios

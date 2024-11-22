@@ -1,0 +1,20 @@
+.star {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 5px;
+  }
+  
+  .star-icon {
+    font-size: 2rem; /* Tamaño de la estrella */
+    color: #ccc; /* Color de estrellas desactivadas */
+    transition: color 0.3s ease;
+  }
+  
+  input[type="radio"]:checked + .star-icon {
+    color: #ffc107; /* Color de estrellas seleccionadas */
+  }
+  
+  input[type="radio"]:focus + .star-icon {
+    outline: 1px dotted #000;
+  }
+  

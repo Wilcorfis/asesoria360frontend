@@ -79,9 +79,10 @@ obtenerUsuario(): void {
 logout() {
 
   this.usuarioService.clearUsuario(); // Limpia el usuario en el servicio
-
   this.authService.logout();
+  localStorage.removeItem('email');
   localStorage.removeItem('usuario');
+  localStorage.removeItem('jwtToken');
   this.router.navigate(['']);
   
 }
