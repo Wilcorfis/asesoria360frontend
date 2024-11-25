@@ -92,6 +92,8 @@ alter table suscripcionasesoria
 add constraint unique_usuario_asesoria unique(fk_id_estudiante,fk_id_asesoria);
 alter table asesoria
 add constraint unique_horario_asesoria unique(fk_id_usuariotut, fecha_asesoria, fk_id_horario);
+ALTER TABLE retroalimentacion
+ADD CONSTRAINT unique_usuario_asesoria2 UNIQUE (fk_id_usuario, fk_id_asesoria);
 
 CREATE OR REPLACE FUNCTION check_time_overlap() 
 RETURNS TRIGGER AS $$
@@ -122,6 +124,44 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trg_check_time_overlap
 BEFORE INSERT OR UPDATE ON asesoria
 FOR EACH ROW EXECUTE FUNCTION check_time_overlap();
+
+
+CREATE OR REPLACE FUNCTION check_subscription_before_feedback()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Verifica si el usuario está suscrito a la asesoría
+    IF NOT EXISTS (
+        SELECT 1
+        FROM suscripcionasesoria
+        WHERE fk_id_asesoria = NEW.fk_id_asesoria
+          AND fk_id_estudiante = NEW.fk_id_usuario
+    ) THEN
+        RAISE EXCEPTION 'El usuario no está suscrito a la asesoría.';
+    END IF;
+    
+    -- Verifica si ya ha dado retroalimentación para esta asesoría
+    IF EXISTS (
+        SELECT 1
+        FROM retroalimentacion
+        WHERE fk_id_usuario = NEW.fk_id_usuario
+          AND fk_id_asesoria = NEW.fk_id_asesoria
+    ) THEN
+        RAISE EXCEPTION 'El usuario ya ha dado retroalimentación para esta asesoría.';
+    END IF;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER before_insert_retroalimentacion
+BEFORE INSERT ON retroalimentacion
+FOR EACH ROW
+EXECUTE FUNCTION check_subscription_before_feedback();
+
+
+
+
 api
 https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios
 
