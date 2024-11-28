@@ -63,11 +63,13 @@ export default class RetroalimentacionUpdateComponent implements OnInit {
     //console.log(retroalimentacionForm)
     if (this.retroalimentacion) {
       
-      
+      if (this.form?.valid) {
       this.retroalimentacionService.update(this.retroalimentacion.id_retroalimentacion,retroalimentacionForm).subscribe(()=>{
         this.router.navigate(['/listarretroalimentacion'])
   
-      })
+      })}else{
+        alert("faltan campos por completar")
+      }
       
       
     }

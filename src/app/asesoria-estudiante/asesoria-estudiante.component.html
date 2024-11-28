@@ -1,15 +1,11 @@
-<h2 class="mb-5">Tdoas las asesorias de estado publico</h2>
-<div class="text-end">
-
-</div>
+<h2 class="mb-5">Todas las asesorías de estado público</h2>
+<div class="text-end"></div>
 <div class="container">
   <div class="row mb-3">
     <div class="col text-center">
-      <button class="btn btn-outline-primary me-2"
-        (click)="prevMonth()">Anterior</button>
+      <button class="btn btn-outline-primary me-2" (click)="prevMonth()">Anterior</button>
       <span class="fw-bold">{{ currentDate | date: 'MMMM yyyy' }}</span>
-      <button class="btn btn-outline-primary ms-2"
-        (click)="nextMonth()">Siguiente</button>
+      <button class="btn btn-outline-primary ms-2" (click)="nextMonth()">Siguiente</button>
     </div>
   </div>
 
@@ -34,28 +30,22 @@
 
         <div *ngIf="day.asesorias.length > 0" class="text-center mt-1">
           <small class="text-muted">Total Asesorías: {{ day.asesorias.length }}</small>
-      
-        
-    
-          <button class="btn btn-sm btn-secondary"
-          (click)="openEventModal(day.dateKey)">
-          Ver Todo
-        </button>
-        
+
+          <button class="btn btn-sm btn-secondary" (click)="openEventModal(day.dateKey)">
+            Ver Todo
+          </button>
         </div>
-
       </div>
-
     </div>
   </div>
 </div>
 
+<!-- Modal con detalles de las asesorías -->
 <div class="custom-modal" *ngIf="isModalOpen">
   <div class="custom-modal-content">
     <div class="custom-modal-header">
       <h5>Asesorías del día</h5>
-      <button type="button" (click)="closeModal()"
-        class="close-button">X</button>
+      <button type="button" (click)="closeModal()" class="close-button">X</button>
     </div>
     <div class="custom-modal-body">
       <div *ngFor="let asesoria of selectedDayAsesorias" class="mb-3 p-2 border rounded">
@@ -63,20 +53,25 @@
         <p class="mb-1"><strong>Tutor:</strong> {{ asesoria.tutor.correo }}</p>
         <p class="mb-1"><strong>Horario:</strong> {{ asesoria.horario.hora_inicio }} - {{ asesoria.horario.hora_fin }}</p>
         <p class="mb-1 text-secondary"><strong>Ubicación:</strong> <a href="{{ asesoria.ubicacion }}">{{ asesoria.ubicacion }}</a></p>
-        <ng-container *ngIf="!retroalimentacion || retroalimentacion.asesoria.id_asesoria !== asesoria.id_asesoria; else calificada">
+ 
+        <!-- Verificar si ya se ha dado retroalimentación -->
+        <ng-container *ngIf="!hasRetroalimentacion(asesoria.id_asesoria); else calificada">
           <a [routerLink]="['/', asesoria.id_asesoria, 'nuevoretroalimentacion']" class="btn btn-sm mt-1 btn-secondary">
             Calificar asesoría
           </a>
         </ng-container>
+
+        <!-- Plantilla para cuando ya se ha calificado -->
         <ng-template #calificada>
-          <div>ya calificaste</div>
+          <div>Ya calificaste</div>
         </ng-template>
+        
       </div>
     </div>
-    
+
     <div class="custom-modal-footer">
-      <button type="button" class="btn btn-secondary"
-        (click)="closeModal()">Cerrar</button>
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
     </div>
   </div>
 </div>
+

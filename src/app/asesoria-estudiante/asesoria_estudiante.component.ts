@@ -23,7 +23,7 @@ export default class AsesoriaEstudianteComponent implements OnInit {
   calendarWeeks: any[][] = [];
   asesoria:any[]=[]; // Array para almacenar las asesorías
   usuario: Usuario| null = null;
-  retroalimentacion: any| null = null;
+  retroalimentacion: any[]=[];
   isLoggedIn: boolean = false;
   currentDate: Date = new Date();
   events: { [key: string]: string } = {};
@@ -43,6 +43,9 @@ export default class AsesoriaEstudianteComponent implements OnInit {
   }
   closeModal() {
     this.isModalOpen = false; // Ocultar modal
+  }
+  hasRetroalimentacion(id_asesoria: number): boolean {
+    return this.retroalimentacion.some(r => r.asesoria?.id_asesoria === id_asesoria);
   }
 
   loadCalendar(): void {
@@ -159,7 +162,7 @@ export default class AsesoriaEstudianteComponent implements OnInit {
     //this.loadAll();
     this.cargarAsesorias();
     const idUsuario: number = this.usuario?.id_usuario ?? 0;
-    this.retroalimentacionService.getporidusuario2(idUsuario).subscribe(
+    this.retroalimentacionService.getporidusuario(idUsuario).subscribe(
       retro=>{
         this.retroalimentacion=retro
         //console.log(retro);

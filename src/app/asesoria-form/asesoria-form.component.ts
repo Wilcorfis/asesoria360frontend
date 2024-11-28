@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './asesoria-form.component.css'
 })
 export default class AsesoriaFormComponent implements OnInit {
-  form2?: FormGroup
+ 
   usuario: Usuario | null = null;
   email: string = '';
   minDate: string = '';
@@ -44,10 +44,7 @@ export default class AsesoriaFormComponent implements OnInit {
     
 
   ) {
-    this.form2 = this.fb.group({
-      fk_id_horario: [null, Validators.required],
-      fk_id_asignatura: [null, Validators.required]
-    });
+
 
   
   }
@@ -64,17 +61,8 @@ export default class AsesoriaFormComponent implements OnInit {
     this.obtenerUsuario(); 
     this.loadHorarios();
     this.loadAsignaturas();
-    this.form2?.get('fk_id_horario')?.valueChanges.subscribe(value => {
-      
-      this.form?.get('horario')?.setValue(parseInt(value,10))
-      // Aquí puedes ejecutar cualquier lógica adicional que necesites
-    });
-    this.form2?.get('fk_id_asignatura')?.valueChanges.subscribe(value => {
-      
-      this.form?.get('asignatura')?.setValue(parseInt(value,10))
-      // Aquí puedes ejecutar cualquier lógica adicional que necesites
-    });
 
+  
 
     const id=this.route.snapshot.paramMap.get('id');
     if(id){
@@ -88,7 +76,7 @@ export default class AsesoriaFormComponent implements OnInit {
         
         this.form=this.fb.group({
           horario :[asesoria.horario.id_horario,[Validators.required]],
-          tutor :[asesoria.tutor.id_usuario,[Validators.required]],
+          tutor :[{"id_usuario":asesoria.tutor.id_usuario},[Validators.required]],
           asignatura :[asesoria.asignatura.id_asignatura,[Validators.required]],
           fecha_creacion :[new Date().toISOString().split('T')[0],[Validators.required]],
           fecha_asesoria :[fecha,[Validators.required]],
@@ -101,10 +89,16 @@ export default class AsesoriaFormComponent implements OnInit {
 
         })
     }else{
+     
+      const idUsuario: number = this.usuario?.id_usuario ?? 0; // Cambia 0 por el valor que desees
+  
+   
 
+      
+   
         this.form=this.fb.group({
           horario :['',[Validators.required]],
-          tutor :['',[Validators.required]],
+          tutor :[{"id_usuario":idUsuario},[Validators.required]],
           asignatura :['',[Validators.required]],
           fecha_creacion :[new Date().toISOString().split('T')[0],[Validators.required]],
           fecha_asesoria :['',[Validators.required]],
@@ -158,14 +152,14 @@ export default class AsesoriaFormComponent implements OnInit {
    
 
   save(){
+    console.log(this.form)
+
+   
+    if (this.form?.valid  ) {
+      const asesoriaForm=this.form?.value;
+         asesoriaForm["horario"] = {"id_horario":asesoriaForm["horario"]}
+         asesoriaForm["asignatura"] = {"id_asignatura":asesoriaForm["asignatura"]}
     
-    const asesoriaForm=this.form!.value;
-    const idUsuario: number = this.usuario?.id_usuario ?? 0; // Cambia 0 por el valor que desees
-    asesoriaForm["tutor"] ={"id_usuario":idUsuario};
- 
-    asesoriaForm["horario"] = {"id_horario":asesoriaForm["horario"]}
-    asesoriaForm["asignatura"] = {"id_asignatura":asesoriaForm["asignatura"]}
-  
     
     if (this.asesoria) {
        
@@ -186,8 +180,10 @@ export default class AsesoriaFormComponent implements OnInit {
       
     }
   
+  }else{
+  alert("faltan campos por completar")
+  
   }
-  
-  
+}
 
 }

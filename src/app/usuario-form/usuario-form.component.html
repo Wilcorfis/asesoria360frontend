@@ -49,10 +49,15 @@
         </div>
 
         <div class="mb-3">
-            <label for="sexo">sexo</label>
-            <input id="sexo" type="text" placeholder="email"
-                class="form-control" formControlName="sexo">
+            <label for="sexo">Sexo</label>
+            <select id="sexo" class="form-control" formControlName="sexo">
+                <option value="">Selecciona una opción</option>  <!-- Opción vacía para no seleccionar por defecto -->
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
+            </select>
         </div>
+        
         <div class="mb-3">
             <label for="telefono">telefono</label>
             <input id="telefono" type="number" placeholder="nombre"

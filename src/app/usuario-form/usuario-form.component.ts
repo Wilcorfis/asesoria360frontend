@@ -75,6 +75,8 @@ export default class UsuarioFormComponent implements OnInit {
   }
 
   save(){
+    console.log(this.form)
+    if (this.form?.valid) {
     const usuarioForm=this.form!.value;
     if (this.usuario) {
       
@@ -86,14 +88,17 @@ export default class UsuarioFormComponent implements OnInit {
     
       
     } else {
-      if (this.form?.valid) {
+     
       this.usuarioService.create(usuarioForm).subscribe(()=>{
         this.router.navigate([''])
   
       })
-    }
+  
       
     }
+  }else{
+    alert("faltan campos por completar")
+  }
 
  
 
