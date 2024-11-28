@@ -75,7 +75,7 @@ export default class UsuarioFormComponent implements OnInit {
   }
 
   save(){
-    console.log(this.form)
+    
     if (this.form?.valid) {
     const usuarioForm=this.form!.value;
     if (this.usuario) {
