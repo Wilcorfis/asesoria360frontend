@@ -58,7 +58,7 @@ export default class RetroalimentacionFormComponent implements OnInit {
   
   }
   save(){
-    console.log(this.form)
+    
     const retroalimentacionForm=this.form!.value;
  
     if (this.retroalimentacion) {
