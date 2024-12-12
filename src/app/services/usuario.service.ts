@@ -20,14 +20,10 @@ export class UsuarioService {
     return this.http.get<Usuario>(`https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios/${id}`);
   }
   create(usuario: Usuario){
-    const token = localStorage.getItem('jwtToken');
+   
 
-    // Configurar los headers
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-    return this.http.post<Usuario>('https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios',usuario,{headers})
+
+    return this.http.post<Usuario>('https://new-christen-wilcorfis-23727a02.koyeb.app/usuarios',usuario)
   }
   update(id: number,usuario: Usuario){
     const token = localStorage.getItem('jwtToken');

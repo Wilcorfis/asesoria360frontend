@@ -8,7 +8,7 @@ create table usuario(
         codigotutor varchar(50),/*codigo proporcionado por Poli para ser tutor*/
 	correo varchar(50) not null,
 	sexo varchar(30) not null,
-	telefono int,
+	telefono varchar(30),
 	fecha_nacimiento date,
 	descripcion varchar(200) 
 );
